@@ -10,13 +10,13 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
 
     user1: User = {
         login: 'system',
+        phone: '0968904961',
         password: 'system',
         firstName: 'System',
         lastName: 'System',
         email: 'system@localhost.it',
         imageUrl: '',
         activated: true,
-        langKey: 'en',
         createdBy: 'system',
         lastModifiedBy: 'system',
     };
@@ -29,7 +29,7 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
         email: 'anonymoususer@localhost.it',
         imageUrl: '',
         activated: true,
-        langKey: 'en',
+        phone: '0968904962',
         createdBy: 'system',
         lastModifiedBy: 'system',
     };
@@ -42,7 +42,7 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
         email: 'admin@localhost.it',
         imageUrl: '',
         activated: true,
-        langKey: 'en',
+        phone: '0968904963',
         createdBy: 'system',
         lastModifiedBy: 'system',
     };
@@ -55,7 +55,7 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
         email: 'user@localhost.it',
         imageUrl: '',
         activated: true,
-        langKey: 'en',
+        phone: '0968904964',
         createdBy: 'system',
         lastModifiedBy: 'system',
     };

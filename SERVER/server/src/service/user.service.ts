@@ -22,6 +22,12 @@ export class UserService {
         return UserMapper.fromEntityToDTO(this.flatAuthorities(result));
     }
 
+    async findByPhone(signInPhone: string): Promise<UserDTO | undefined> {
+        const result = await this.userRepository.findOne({ phone: signInPhone });
+        return UserMapper.fromEntityToDTO(result);
+    }
+
+
     async find(options: FindManyOptions<UserDTO>): Promise<UserDTO | undefined> {
         const result = await this.userRepository.findOne(options);
         return UserMapper.fromEntityToDTO(this.flatAuthorities(result));

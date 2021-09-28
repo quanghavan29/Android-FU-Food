@@ -21,11 +21,11 @@ export class UserDTO extends BaseDTO {
     @IsEmail()
     email: string;
 
+    @ApiModelProperty({ example: '0968904962', description: 'User phone' })
+    phone: string;
+
     @ApiModelProperty({ example: 'true', description: 'User activation', required: false })
     activated?: boolean;
-
-    @ApiModelProperty({ example: 'en', description: 'User language', required: false })
-    langKey?: string;
 
     @ApiModelProperty({
         isArray: true,
@@ -41,10 +41,4 @@ export class UserDTO extends BaseDTO {
 
     @ApiModelProperty({ example: 'http://my-image-url', description: 'Image url', required: false })
     imageUrl?: string;
-
-    activationKey?: string;
-
-    resetKey?: string;
-
-    resetDate?: Date;
 }

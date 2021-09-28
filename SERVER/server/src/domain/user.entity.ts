@@ -13,10 +13,10 @@ export class User extends BaseEntity {
     lastName?: string;
     @Column()
     email: string;
+    @Column({ unique: true })
+    phone: string;
     @Column({ default: false })
     activated?: boolean;
-    @Column({ default: 'en' })
-    langKey?: string;
 
     @ManyToMany(() => Authority)
     @JoinTable()
@@ -29,10 +29,5 @@ export class User extends BaseEntity {
     password: string;
     @Column({ nullable: true })
     imageUrl?: string;
-    @Column({ nullable: true })
-    activationKey?: string;
-    @Column({ nullable: true })
-    resetKey?: string;
-    @Column({ nullable: true })
-    resetDate?: Date;
+
 }

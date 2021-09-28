@@ -14,7 +14,7 @@ function ormConfig(): TypeOrmModuleOptions {
     let ormconfig: TypeOrmModuleOptions = {
         name: 'default',
         type: 'mysql',
-        database: 'prm391',
+        database: 'fpt_food',
         host: 'localhost',
         port: 3306,
         username: 'root',
@@ -31,7 +31,7 @@ function ormConfig(): TypeOrmModuleOptions {
         ormconfig = {
             name: 'default',
             type: 'mysql',
-            database: 'prm391',
+            database: 'fpt_food',
             host: 'localhost',
             port: 3306,
             username: 'root',
@@ -49,7 +49,7 @@ function ormConfig(): TypeOrmModuleOptions {
         ormconfig = {
             name: 'default',
             type: 'mysql',
-            database: 'prm391',
+            database: 'fpt_food',
             host: 'localhost',
             port: 3306,
             username: 'root',

@@ -5,7 +5,7 @@ import { AuthService } from '../../service/auth.service';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 
-@Controller('api')
+@Controller('api/jwt')
 @UseInterceptors(LoggingInterceptor)
 @ApiUseTags('user-jwt-controller')
 export class UserJWTController {

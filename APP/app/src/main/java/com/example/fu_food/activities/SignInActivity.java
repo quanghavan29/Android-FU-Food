@@ -11,6 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fu_food.R;
+import com.example.fu_food.models.FoodCategory;
+import com.example.fu_food.models.User;
+import com.example.fu_food.models.UserSignIn;
+import com.example.fu_food.services.AuthService;
+import com.example.fu_food.services.FoodCategoryService;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -20,6 +31,9 @@ public class SignInActivity extends AppCompatActivity {
     private TextView textViewForgotPassword;
     private EditText editTextPhone;
     private EditText editTextPassword;
+
+    public static final String IMAGE_PROFILE_URL = "";
+    public static final String KEY_BUNDLE = "KEY_BUNDLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +74,9 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 editTextPhone = findViewById(R.id.editTextPhone);
                 editTextPassword = findViewById(R.id.editTextPassword);
-                String phoneInputed = editTextPhone.getText().toString().trim();
-                String passwordInputed = (String) editTextPassword.getText().toString().trim();
-                signIn(phoneInputed, passwordInputed);
+                String signInPhone = editTextPhone.getText().toString().trim();
+                String signInPassword = (String) editTextPassword.getText().toString().trim();
+                signIn(signInPhone, signInPassword);
             }
         });
     }
@@ -76,21 +90,44 @@ public class SignInActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
-    public void openHomeActivity() {
+    public void openHomeActivity(User user) {
         Intent intent = new Intent(this, HomeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(IMAGE_PROFILE_URL, user.getImageUrl());
+
+        intent.putExtra(KEY_BUNDLE, bundle);
+
         startActivity(intent);
     }
 
-    public void signIn(String phoneInputed, String passwordInputed) {
-        if (phoneInputed.equals("") || passwordInputed.equals("")) {
-            Toast.makeText(SignInActivity.this, "Nhập số điện thoại và mật khẩu của bạn!", Toast.LENGTH_SHORT).show();
+    public void signIn(String signInPhone, String signInPassword) {
+        if (signInPhone.equals("") || signInPassword.equals("")) {
+            Toast.makeText(SignInActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
         } else {
-            if (phoneInputed.equals("0968904962") && passwordInputed.equals("123")) {
-                Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                openHomeActivity();
-            } else  {
-                Toast.makeText(SignInActivity.this, "Mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
-            }
+            AuthService.authService.signIn(signInPhone, signInPassword).enqueue(new Callback<UserSignIn>() {
+                @Override
+                public void onResponse(Call<UserSignIn> call, Response<UserSignIn> response) {
+                    if (response.body().getStatusCode() == 200) {
+                        Toast.makeText(SignInActivity.this, "Đăng nhập thành công! - " + response.body().getUser().getImageUrl(), Toast.LENGTH_SHORT).show();
+                        User user = response.body().getUser();
+                        openHomeActivity(user);
+                    } else if (response.body().getStatusCode() == 400) {
+                        if (response.body().getErrorMessage().equals("Phone do not registered!")) {
+                            Toast.makeText(SignInActivity.this, "Số điện thoại chưa được đăng ký!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (response.body().getErrorMessage().equals("Invalid password!")) {
+                                Toast.makeText(SignInActivity.this, "Mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<UserSignIn> call, Throwable t) {
+                    Toast.makeText(SignInActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

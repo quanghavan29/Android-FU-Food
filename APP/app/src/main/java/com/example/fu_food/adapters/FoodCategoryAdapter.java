@@ -18,6 +18,8 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
 public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapter.CategoryViewHolder> {
 
     private Context context;
@@ -37,7 +39,10 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.image.setImageResource(foodCategories.get(position).getImage());
+        Picasso.with(context).load("http://hri.vtgo.vn:8005/profileimages/31e4b3670-4487-408d-92f5-5423a61c8889.jpg")
+            .into(holder.image);
+//        holder.image.setImageResource(foodCategories.get(position).getImage());
+
         holder.name.setText(foodCategories.get(position).getName());
         if (foodCategories.get(position).getName().equals("Đồ ăn")) {
             holder.name.setTextColor(context.getResources().getColor(R.color.orange));

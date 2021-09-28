@@ -5,9 +5,9 @@ import { BaseEntity } from "./base/base.entity";
 export class FoodCategory extends BaseEntity{
 
     @Column({ nullable: true })
-    name;
+    name?: string;
 
     @Column({ nullable: true })
-    image;
+    image?: number;
     
 }
