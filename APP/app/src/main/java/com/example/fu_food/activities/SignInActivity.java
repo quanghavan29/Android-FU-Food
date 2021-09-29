@@ -108,7 +108,7 @@ public class SignInActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserSignIn> call, Response<UserSignIn> response) {
                     if (response.body().getStatusCode() == 200) {
-                        Toast.makeText(SignInActivity.this, "Đăng nhập thành công! - " + response.body().getUser().getImageUrl(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         User user = response.body().getUser();
                         openHomeActivity(user);
                     } else if (response.body().getStatusCode() == 400) {

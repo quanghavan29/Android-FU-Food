@@ -7,6 +7,6 @@ export class FoodCategoryDTO extends BaseDTO {
     name?: string;
 
     @ApiModelProperty({ required: false })
-    image?: number;
+    image?: string;
     
 }

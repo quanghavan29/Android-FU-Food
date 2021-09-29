@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="120dp"
-    android:layout_height="78dp"
+    android:layout_width="75dp"
+    android:layout_height="75dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     xmlns:tools="http://schemas.android.com/tools"
@@ -30,20 +30,19 @@
 
         <ImageView
             android:id="@+id/imageViewFoodCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             tools:src="@drawable/food"
-            android:padding="22dp"
-            android:layout_marginTop="-15dp"/>
+            android:padding="2dp"/>
 
         <TextView
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đồ ăn"
+            android:textSize="13dp"
             android:textColor="#808080"
-            android:textStyle="bold"
-            android:layout_marginTop="-24dp"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

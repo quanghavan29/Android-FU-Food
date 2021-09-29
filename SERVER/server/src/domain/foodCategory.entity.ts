@@ -8,6 +8,6 @@ export class FoodCategory extends BaseEntity{
     name?: string;
 
     @Column({ nullable: true })
-    image?: number;
+    image?: string;
     
 }

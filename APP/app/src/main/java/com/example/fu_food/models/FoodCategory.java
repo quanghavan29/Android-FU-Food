@@ -4,12 +4,12 @@ public class FoodCategory {
 
     private String id;
     private String name;
-    private int image;
+    private String image;
 
     public FoodCategory() {
     }
 
-    public FoodCategory(String id, String name, int image) {
+    public FoodCategory(String id, String name, String image) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -31,11 +31,11 @@ public class FoodCategory {
         this.name = name;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -44,7 +44,7 @@ public class FoodCategory {
         return "FoodCategory{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", image=" + image +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
