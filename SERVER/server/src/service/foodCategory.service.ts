@@ -16,7 +16,7 @@ export class FoodCategoryService {
     }
 
     async findAll(): Promise<FoodCategoryDTO[] | undefined> {
-        const resultList = await this.foodCategoryRepository.find();
+        const resultList = await this.foodCategoryRepository.find({order: {createdDate: 'ASC'}});
         const foodCategoriesDTO: FoodCategoryDTO[] = [];
         if (resultList) {
             resultList.forEach(foodCategory => foodCategoriesDTO.push(FoodCategoryMapper.fromEntityToDTO(foodCategory)));

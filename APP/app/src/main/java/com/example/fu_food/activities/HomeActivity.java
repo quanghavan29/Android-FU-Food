@@ -4,19 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fu_food.R;
 import com.example.fu_food.adapters.BestSellingFoodAdapter;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
+import com.example.fu_food.adapters.ListFoodAdapter;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
 import com.example.fu_food.services.FoodCategoryService;
+import com.example.fu_food.services.FoodService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,21 +32,42 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
-    RecyclerView recyclerFoodCategories, recyclerBestSellingFood;
+    RecyclerView recyclerViewFoodCategories, recyclerViewBestSellingFood, recyclerViewListFoods;
     ImageView imageViewProfileImage;
+    TextView textViewCountFoodCategories, textViewCountBestSellingFoods, textViewCountAllFoods;
+    TextView textViewFood, textViewDrinks, textViewNoodle, textViewAllFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        recyclerFoodCategories = findViewById(R.id.recyclerFoodCategories);
-        recyclerBestSellingFood = findViewById(R.id.recyclerBestSellingFood);
+        recyclerViewFoodCategories = findViewById(R.id.recyclerViewFoodCategories);
+        recyclerViewBestSellingFood = findViewById(R.id.recyclerViewBestSellingFood);
+        recyclerViewListFoods = findViewById(R.id.recyclerViewListFoods);
         imageViewProfileImage = findViewById(R.id.imageViewProfileImage);
+        textViewCountFoodCategories = findViewById(R.id.textViewCountFoodCategories);
+        textViewCountBestSellingFoods = findViewById(R.id.textViewCountBestSellingFoods);
+        textViewCountAllFoods = findViewById(R.id.textViewCountAllFoods);
 
         setImageProfile();
-        setFoodCategories();
-        setBestSellingFoods();
+        setRecyclerViewFoodCategories();
+        setRecyclerViewBestSellingFood();
+
+        // when the home page start to load => foodType = allFood
+        String foodType = "allFood";
+        setRecyclerViewListFoods(foodType);
+
+        // Test onclick food categories
+        textViewFood = findViewById(R.id.textViewFood);
+        textViewDrinks = findViewById(R.id.textViewDrinks);
+        textViewNoodle = findViewById(R.id.textViewNoodle);
+        textViewAllFood = findViewById(R.id.textViewAllFood);
+
+        onClickFood();
+        onClickDrinks();
+        onClickNoodle();
+        onClickAllFood();
 
     }
 
@@ -59,49 +84,143 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void setFoodCategories() {
+    // set item view for RecyclerFoodCategories
+    private void setRecyclerViewFoodCategories() {
+        List<FoodCategory> foodCategories = new ArrayList<>();
 
         FoodCategoryService.foodCategoryService.getAllFoodCategories().enqueue(new Callback<List<FoodCategory>>() {
             @Override
             public void onResponse(Call<List<FoodCategory>> call, Response<List<FoodCategory>> response) {
+                foodCategories.add(new FoodCategory("all_food", "Tất Cả", "https://res.cloudinary.com/fpt-food/image/upload/v1632993707/FPT%20FOOD/all_food_zubkbn.jpg"));
+                foodCategories.addAll(response.body());
 
-                List<FoodCategory> foodCategories = response.body();
+                textViewCountFoodCategories.setText("(" + foodCategories.size() + " Danh Mục)");
 
                 FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter(foodCategories, HomeActivity.this);
-                recyclerFoodCategories.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.HORIZONTAL, false));
-                recyclerFoodCategories.setAdapter(foodCategoryAdapter);
+                recyclerViewFoodCategories.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.HORIZONTAL, false));
+                recyclerViewFoodCategories.setAdapter(foodCategoryAdapter);
                 foodCategoryAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<FoodCategory>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Call API Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Call API Get All Food Categories Error!", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void setBestSellingFoods() {
+    // set item view for RecyclerViewBestSellingFood
+    private void setRecyclerViewBestSellingFood() {
+        List<Food> top10BestSellingFoods = new ArrayList<>();
 
-        List<Food> bestSellingFoods = new ArrayList<>();
-        Food food1 = new Food("1", "Bún Cá", 30000, "noodle", "https://res.cloudinary.com/fpt-food/image/upload/v1632900950/FPT%20FOOD/bun_ca_k0pehs.jpg", 43);
-        Food food2 = new Food("2", "Bún Bò Huế", 35000, "noodle", "https://res.cloudinary.com/fpt-food/image/upload/v1632900950/FPT%20FOOD/bun_bo_hue_mhhwtp.jpg", 30);
-        Food food3 = new Food("3", "Hindlands Coffe", 49000, "noodle", "https://res.cloudinary.com/fpt-food/image/upload/v1632900950/FPT%20FOOD/highlands_coffe_hrvjsp.jpg", 28);
-        Food food4 = new Food("4", "Bánh Mì", 25000, "noodle", "https://res.cloudinary.com/fpt-food/image/upload/v1632900950/FPT%20FOOD/banh_mi_nam_dinh_msawq2.jpg", 19);
-        Food food5 = new Food("5", "Cơm Gà", 30000, "noodle", "https://res.cloudinary.com/fpt-food/image/upload/v1632900950/FPT%20FOOD/com_ga_lmyncr.jpg", 12);
+        FoodService.foodService.getTop10BestSellingFoods().enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                top10BestSellingFoods.addAll(response.body());
 
-        bestSellingFoods.add(food1);
-        bestSellingFoods.add(food2);
-        bestSellingFoods.add(food3);
-        bestSellingFoods.add(food4);
-        bestSellingFoods.add(food5);
+                textViewCountBestSellingFoods.setText("(" + top10BestSellingFoods.size() + " Items)");
 
+                BestSellingFoodAdapter bestSellingFoodAdapter = new BestSellingFoodAdapter(HomeActivity.this, top10BestSellingFoods);
+                recyclerViewBestSellingFood.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.HORIZONTAL, false));
+                recyclerViewBestSellingFood.setAdapter(bestSellingFoodAdapter);
+                bestSellingFoodAdapter.notifyDataSetChanged();
+            }
 
-        BestSellingFoodAdapter bestSellingFoodAdapter = new BestSellingFoodAdapter(HomeActivity.this, bestSellingFoods);
-        recyclerBestSellingFood.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.HORIZONTAL, false));
-        recyclerBestSellingFood.setAdapter(bestSellingFoodAdapter);
-        bestSellingFoodAdapter.notifyDataSetChanged();
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Call API Get All Best Selling Foods Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+    }
+
+    // set item view for RecyclerViewListFoods
+    private void setRecyclerViewListFoods(String foodType) {
+
+        FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter();
+
+        List<Food> foods = new ArrayList<>();
+
+        FoodService.foodService.getAllFoods(foodType).enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                foods.addAll(response.body());
+
+                textViewCountAllFoods.setText("(" + foods.size() + " Items)");
+
+                ListFoodAdapter listFoodAdapter = new ListFoodAdapter(HomeActivity.this, foods);
+                recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL, false));
+                recyclerViewListFoods.setAdapter(listFoodAdapter);
+                listFoodAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Call API Get All Best Selling Foods Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void onClickFood() {
+        String foodType = "food";
+        textViewFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textViewFood.setTextColor(Color.parseColor("#f37021"));
+
+                textViewDrinks.setTextColor(Color.parseColor("#808080"));
+                textViewNoodle.setTextColor(Color.parseColor("#808080"));
+                textViewAllFood.setTextColor(Color.parseColor("#808080"));
+                setRecyclerViewListFoods(foodType);
+            }
+        });
+    }
+
+    private void onClickDrinks() {
+        String foodType = "drinks";
+        textViewDrinks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textViewDrinks.setTextColor(Color.parseColor("#f37021"));
+
+                textViewFood.setTextColor(Color.parseColor("#808080"));
+                textViewNoodle.setTextColor(Color.parseColor("#808080"));
+                textViewAllFood.setTextColor(Color.parseColor("#808080"));
+                setRecyclerViewListFoods(foodType);
+            }
+        });
+    }
+
+    private void onClickNoodle() {
+        String foodType = "noodle";
+        textViewNoodle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textViewNoodle.setTextColor(Color.parseColor("#f37021"));
+
+                textViewFood.setTextColor(Color.parseColor("#808080"));
+                textViewDrinks.setTextColor(Color.parseColor("#808080"));
+                textViewAllFood.setTextColor(Color.parseColor("#808080"));
+                setRecyclerViewListFoods(foodType);
+            }
+        });
+    }
+
+    private void onClickAllFood() {
+        String foodType = "allFood";
+        textViewAllFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textViewAllFood.setTextColor(Color.parseColor("#f37021"));
+
+                textViewFood.setTextColor(Color.parseColor("#808080"));
+                textViewDrinks.setTextColor(Color.parseColor("#808080"));
+                textViewNoodle.setTextColor(Color.parseColor("#808080"));
+                setRecyclerViewListFoods(foodType);
+            }
+        });
     }
 
 }

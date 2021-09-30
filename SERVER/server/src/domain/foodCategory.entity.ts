@@ -1,5 +1,6 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
+import { Food } from "./food.entity";
 
 @Entity('food_category')
 export class FoodCategory extends BaseEntity{
@@ -8,6 +9,9 @@ export class FoodCategory extends BaseEntity{
     name?: string;
 
     @Column({ nullable: true })
-    image?: string;
+    imageUrl?: string;
+
+    @OneToMany(() => Food, food => food.foodCategory)
+    foods?: Food[];
     
 }

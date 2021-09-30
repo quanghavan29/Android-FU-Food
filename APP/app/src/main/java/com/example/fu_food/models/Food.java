@@ -8,17 +8,25 @@ public class Food {
     private String foodType;
     private String imageUrl;
     private int salesQuantity;
+    private float reviewPoint;
+    private int numberOfReview;
+    private FoodCategory foodCategory;
+    private Restaurant restaurant;
 
     public Food() {
     }
 
-    public Food(String id, String name, int price, String foodType, String imageUrl, int salesQuantity) {
+    public Food(String id, String name, int price, String foodType, String imageUrl, int salesQuantity, float reviewPoint, int numberOfReview, FoodCategory foodCategory, Restaurant restaurant) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.foodType = foodType;
         this.imageUrl = imageUrl;
         this.salesQuantity = salesQuantity;
+        this.reviewPoint = reviewPoint;
+        this.numberOfReview = numberOfReview;
+        this.foodCategory = foodCategory;
+        this.restaurant = restaurant;
     }
 
     public String getId() {
@@ -69,6 +77,39 @@ public class Food {
         this.salesQuantity = salesQuantity;
     }
 
+    public float getReviewPoint() {
+        return reviewPoint;
+    }
+
+    public void setReviewPoint(float reviewPoint) {
+        this.reviewPoint = reviewPoint;
+    }
+
+    public int getNumberOfReview() {
+        return numberOfReview;
+    }
+
+    public void setNumberOfReview(int numberofReview) {
+        this.numberOfReview = numberofReview;
+    }
+
+
+    public FoodCategory getFoodCategory() {
+        return foodCategory;
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory) {
+        this.foodCategory = foodCategory;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @Override
     public String toString() {
         return "Food{" +
@@ -78,6 +119,9 @@ public class Food {
                 ", foodType='" + foodType + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", salesQuantity=" + salesQuantity +
+                ", reviewPoint=" + reviewPoint +
+                ", numberOfReview=" + numberOfReview +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }

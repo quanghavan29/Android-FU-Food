@@ -1,18 +1,20 @@
 package com.example.fu_food.models;
 
-public class FoodCategory {
+public class Restaurant {
 
     private String id;
     private String name;
     private String imageUrl;
+    private String address;
 
-    public FoodCategory() {
+    public Restaurant() {
     }
 
-    public FoodCategory(String id, String name, String imageUrl) {
+    public Restaurant(String id, String name, String imageUrl, String address) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
+        this.address = address;
     }
 
     public String getId() {
@@ -39,12 +41,21 @@ public class FoodCategory {
         this.imageUrl = imageUrl;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        return "FoodCategory{" +
+        return "Restaurant{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

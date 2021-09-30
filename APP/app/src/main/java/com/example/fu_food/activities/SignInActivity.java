@@ -2,6 +2,7 @@ package com.example.fu_food.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextView textViewForgotPassword;
     private EditText editTextPhone;
     private EditText editTextPassword;
+    private ProgressDialog progressDialog;
 
     public static final String IMAGE_PROFILE_URL = "";
     public static final String KEY_BUNDLE = "KEY_BUNDLE";

@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
+import com.example.fu_food.activities.HomeActivity;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
 import com.google.android.material.card.MaterialCardView;
@@ -22,24 +23,26 @@ import java.util.List;
 
 import com.squareup.picasso.Picasso;
 
-public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapter.CategoryViewHolder> {
+public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapter.FoodCategoryViewHolder> {
 
     public static Context context;
     public static List<FoodCategory> foodCategories;
+
+    public FoodCategoryAdapter() {
+    }
 
     public FoodCategoryAdapter(List<FoodCategory> foodCategories, Context context) {
         this.context = context;
         this.foodCategories = foodCategories;
     }
 
-
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public static class FoodCategoryViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView name;
         MaterialCardView cardView;
 
-        public CategoryViewHolder(@NonNull View itemView) {
+        public FoodCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.textViewName);
@@ -63,22 +66,24 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
 
     @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = LayoutInflater.from(context).inflate(R.layout.food_category_holder, parent, false);
 
         // here we need to create a layout for recyclerview call items.
-        return new CategoryViewHolder(view);
+        return new FoodCategoryViewHolder(view);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        Picasso.with(context).load(foodCategories.get(position).getImage())
-            .into(holder.image);
+    public void onBindViewHolder(@NonNull FoodCategoryViewHolder holder, int position) {
+        if (foodCategories.get(position).getImageUrl() != null && !foodCategories.get(position).getImageUrl().equals("")) {
+            Picasso.with(context).load(foodCategories.get(position).getImageUrl())
+                    .into(holder.image);
+        }
         holder.name.setText(foodCategories.get(position).getName());
-        if (foodCategories.get(position).getName().equals("Đồ ăn")) {
+        if (foodCategories.get(position).getId().equals("all_food")) {
             holder.name.setTextColor(context.getResources().getColor(R.color.orange));
             holder.cardView.setStrokeColor(context.getResources().getColor(R.color.orange));
         }

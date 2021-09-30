@@ -1,5 +1,6 @@
 package com.example.fu_food.services;
 
+import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,16 +13,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface FoodCategoryService {
+public interface FoodService {
 
     Gson gson = new GsonBuilder().setDateFormat("yyyy-mm-dd HH:mm:ss").create();
 
-    FoodCategoryService foodCategoryService = new Retrofit.Builder()
+    FoodService foodService = new Retrofit.Builder()
             .baseUrl("http:192.168.230.2:8081/")
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .build().create(FoodCategoryService.class);
+            .build().create(FoodService.class);
 
-    @GET("api/food-categories/get-all")
-    Call<List<FoodCategory>> getAllFoodCategories();
+    @GET("api/foods/get-top10-best-selling-foods")
+    Call<List<Food>> getTop10BestSellingFoods();
+
+    @GET("api/foods/get-all")
+    Call<List<Food>> getAllFoods(@Query("foodType") String foodType);
 
 }
