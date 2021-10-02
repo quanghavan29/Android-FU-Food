@@ -57,4 +57,31 @@ s
 
     }
 
+    @Get('/get-food-detail')
+    // @Roles(RoleType.ADMIN)
+    @ApiOperation({ title: 'Get food detail' })
+    @ApiResponse({
+        status: 200,
+        description: 'food detail',
+        type: UserDTO,
+    })
+    async getFoodById(@Req() req: Request): Promise<FoodDTO | undefined> {
+        let foodId = req.query.foodId;
+        return this.foodService.findById(foodId);
+    }
+
+    @Get('/get-all-food-of-restaurant')
+    // @Roles(RoleType.ADMIN)
+    @ApiOperation({ title: 'Get the list of foods' })
+    @ApiResponse({
+        status: 200,
+        description: 'List all foods',
+        type: UserDTO,
+    })
+    async getAllFoodsOfRestaurant(@Req() req: Request): Promise<FoodDTO[] | undefined> {
+        let restaurantId = req.query.restaurantId;
+        let foodId = req.query.foodId;
+        return this.foodService.findAllFoodsByRestaurantId(restaurantId, foodId);
+    }
+
 }

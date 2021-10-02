@@ -28,4 +28,10 @@ public interface FoodService {
     @GET("api/foods/get-all")
     Call<List<Food>> getAllFoods(@Query("foodType") String foodType);
 
+    @GET("api/foods/get-food-detail")
+    Call<Food> getFoodById(@Query("foodId") String foodId);
+
+    @GET("api/foods/get-all-food-of-restaurant")
+    Call<List<Food>> getAllFoodsOfRestaurant(@Query("restaurantId") String restaurantId, @Query("foodId") String foodId);
+
 }

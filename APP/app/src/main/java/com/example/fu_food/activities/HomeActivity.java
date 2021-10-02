@@ -73,8 +73,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setImageProfile() {
         Intent data = HomeActivity.this.getIntent();
-        Bundle bundle = data.getBundleExtra(SignInActivity.KEY_BUNDLE);
-        String imageUrl = bundle.getString(SignInActivity.IMAGE_PROFILE_URL);
+        Bundle bundle = data.getBundleExtra("KEY_BUNDLE");
+        String imageUrl = bundle.getString("IMAGE_PROFILE_URL");
         // if don't have image url => set image profile default
         if (imageUrl.equals("") || imageUrl == null) {
             imageViewProfileImage.setImageResource(R.drawable.profile_image_default);

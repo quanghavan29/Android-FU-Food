@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FoodDTO } from './dto/food.dto';
 import { FoodMapper } from './mapper/food.mapper';
 import { FoodRepository } from '../repository/food.repository';
-import { FindManyOptions } from 'typeorm';
+import { FindManyOptions, Not } from 'typeorm';
+import { Equals, EQUALS } from 'class-validator';
 
 @Injectable()
 export class FoodService {
@@ -11,7 +12,9 @@ export class FoodService {
     constructor(@InjectRepository(FoodRepository) private foodRepository: FoodRepository) {}
 
     async findById(id: string): Promise<FoodDTO | undefined> {
-        const result = await this.foodRepository.findOne(id);
+        const result = await this.foodRepository.findOne(id, {
+            relations: ['foodCategory', 'restaurant'],
+        });
         return FoodMapper.fromEntityToDTO(result);
     }
 
@@ -19,11 +22,11 @@ export class FoodService {
         const resultList = await this.foodRepository.find({
             relations: ['foodCategory', 'restaurant'],
         });
-        const foodCategoriesDTO: FoodDTO[] = [];
+        const foodDTOs: FoodDTO[] = [];
         if (resultList) {
-            resultList.forEach(food => foodCategoriesDTO.push(FoodMapper.fromEntityToDTO(food)));
+            resultList.forEach(food => foodDTOs.push(FoodMapper.fromEntityToDTO(food)));
         }
-        return foodCategoriesDTO;
+        return foodDTOs;
     }
 
     async findAllFoodsByFoodType(foodType: string): Promise<FoodDTO[] | undefined> {
@@ -33,11 +36,11 @@ export class FoodService {
                 id: foodType,
             }}
         });
-        const foodCategoriesDTO: FoodDTO[] = [];
+        const foodDTOs: FoodDTO[] = [];
         if (resultList) {
-            resultList.forEach(food => foodCategoriesDTO.push(FoodMapper.fromEntityToDTO(food)));
+            resultList.forEach(food => foodDTOs.push(FoodMapper.fromEntityToDTO(food)));
         }
-        return foodCategoriesDTO;
+        return foodDTOs;
     }
 
     async findTop10BestSellingFoods(): Promise<FoodDTO[] | undefined> {
@@ -48,11 +51,28 @@ export class FoodService {
                 },
                 take: 10,
             });
-        const foodCategoriesDTO: FoodDTO[] = [];
+        const foodDTOs: FoodDTO[] = [];
         if (resultList) {
-            resultList.forEach(food => foodCategoriesDTO.push(FoodMapper.fromEntityToDTO(food)));
+            resultList.forEach(food => foodDTOs.push(FoodMapper.fromEntityToDTO(food)));
         }
-        return foodCategoriesDTO;
+        return foodDTOs;
+    }
+
+    async findAllFoodsByRestaurantId(restaurantId: string, foodId: string): Promise<FoodDTO[] | undefined> {
+        const resultList = await this.foodRepository.find({
+            relations: ['foodCategory', 'restaurant'],
+            where: { 
+                restaurant: {
+                id: restaurantId,
+                }, 
+                id: Not(foodId),
+            }
+        });
+        const foodDTOs: FoodDTO[] = [];
+        if (resultList) {
+            resultList.forEach(food => foodDTOs.push(FoodMapper.fromEntityToDTO(food)));
+        }
+        return foodDTOs;
     }
 
 

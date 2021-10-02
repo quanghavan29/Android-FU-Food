@@ -34,8 +34,8 @@ public class SignInActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private ProgressDialog progressDialog;
 
-    public static final String IMAGE_PROFILE_URL = "";
-    public static final String KEY_BUNDLE = "KEY_BUNDLE";
+//    public static final String IMAGE_PROFILE_URL = "";
+//    public static final String KEY_BUNDLE = "KEY_BUNDLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +95,9 @@ public class SignInActivity extends AppCompatActivity {
     public void openHomeActivity(User user) {
         Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(IMAGE_PROFILE_URL, user.getImageUrl());
+        bundle.putString("IMAGE_PROFILE_URL", user.getImageUrl());
 
-        intent.putExtra(KEY_BUNDLE, bundle);
+        intent.putExtra("KEY_BUNDLE", bundle);
 
         startActivity(intent);
     }
