@@ -12,13 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fu_food.R;
-import com.example.fu_food.models.FoodCategory;
 import com.example.fu_food.models.User;
 import com.example.fu_food.models.UserSignIn;
 import com.example.fu_food.services.AuthService;
-import com.example.fu_food.services.FoodCategoryService;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,8 +88,8 @@ public class SignInActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
-    public void openHomeActivity(User user) {
-        Intent intent = new Intent(this, HomeActivity.class);
+    public void openHomePageActivity(User user) {
+        Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("IMAGE_PROFILE_URL", user.getImageUrl());
 
@@ -112,7 +108,7 @@ public class SignInActivity extends AppCompatActivity {
                     if (response.body().getStatusCode() == 200) {
                         Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         User user = response.body().getUser();
-                        openHomeActivity(user);
+                        openHomePageActivity(user);
                     } else if (response.body().getStatusCode() == 400) {
                         if (response.body().getErrorMessage().equals("Phone do not registered!")) {
                             Toast.makeText(SignInActivity.this, "Số điện thoại chưa được đăng ký!", Toast.LENGTH_SHORT).show();

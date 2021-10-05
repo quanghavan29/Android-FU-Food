@@ -1,22 +1,24 @@
-package com.example.fu_food.activities;
+package com.example.fu_food.activities.fragment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.fu_food.R;
+import com.example.fu_food.activities.FoodDetailActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
-import com.example.fu_food.adapters.ListFoodAdapter;
+import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.services.FoodService;
 import com.squareup.picasso.Picasso;
@@ -29,36 +31,44 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FoodDetail extends AppCompatActivity {
+public class FoodDetailFragment extends Fragment {
 
-    FrameLayout frameLayoutImageFood;
-    RecyclerView recyclerViewListFoods;
-    TextView textViewFoodName, textViewRestaurantName, textViewPrice,
+    private FrameLayout frameLayoutImageFood;
+    private RecyclerView recyclerViewListFoods;
+    private TextView textViewFoodName, textViewRestaurantName, textViewPrice,
             textViewNumberOfReview, textViewSalesQuantity, textViewViewMoreFood;
+    private View view;
+    private FoodDetailActivity foodDetailActivity;
+
+    public FoodDetailFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_detail);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_food_detail, container, false);
+        foodDetailActivity = (FoodDetailActivity) getActivity();
 
-        frameLayoutImageFood = findViewById(R.id.frameLayoutImageFood);
-        recyclerViewListFoods = findViewById(R.id.recyclerViewListFoods);
-        textViewFoodName = findViewById(R.id.textViewFoodName);
-        textViewRestaurantName = findViewById(R.id.textViewRestaurantName);
-        textViewPrice = findViewById(R.id.textViewPrice);
-        textViewNumberOfReview = findViewById(R.id.textViewNumberOfReview);
-        textViewSalesQuantity = findViewById(R.id.textViewSalesQuantity);
-        textViewViewMoreFood = findViewById(R.id.textViewViewMoreFood);
+        recyclerViewListFoods = view.findViewById(R.id.recyclerViewListFoods);
+        textViewFoodName = view.findViewById(R.id.textViewFoodName);
+        textViewRestaurantName = view.findViewById(R.id.textViewRestaurantName);
+        textViewPrice = view.findViewById(R.id.textViewPrice);
+        textViewNumberOfReview = view.findViewById(R.id.textViewNumberOfReview);
+        textViewSalesQuantity = view.findViewById(R.id.textViewSalesQuantity);
+        textViewViewMoreFood = view.findViewById(R.id.textViewViewMoreFood);
 
         String foodId = getFoodIdBundle();
         loadFoodDetail(foodId);
 
         String restaurantId = getRestaurantIdBundle();
         setRecyclerViewListFoods(restaurantId, foodId);
+
+        return view;
     }
 
     private String getFoodIdBundle() {
-        Intent data = FoodDetail.this.getIntent();
+        Intent data = foodDetailActivity.getIntent();
         Bundle bundle = data.getBundleExtra("KEY_BUNDLE");
         String foodId = bundle.getString("FOOD_ID");
 
@@ -66,7 +76,7 @@ public class FoodDetail extends AppCompatActivity {
     }
 
     private String getRestaurantIdBundle() {
-        Intent data = FoodDetail.this.getIntent();
+        Intent data = foodDetailActivity.getIntent();
         Bundle bundle = data.getBundleExtra("KEY_BUNDLE");
         String restaurantId = bundle.getString("RESTAURANT_ID");
 
@@ -86,7 +96,7 @@ public class FoodDetail extends AppCompatActivity {
                 textViewNumberOfReview.setText(food.getNumberOfReview() + "");
                 textViewSalesQuantity.setText(food.getSalesQuantity() + "");
 
-                Picasso.with(FoodDetail.this).load(food.getImageUrl())
+                Picasso.with(foodDetailActivity).load(food.getImageUrl())
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -107,7 +117,7 @@ public class FoodDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Food> call, Throwable t) {
-                Toast.makeText(FoodDetail.this, "Call API Get Food Detail Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(foodDetailActivity, "Call API Get Food Detail Error!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -125,15 +135,15 @@ public class FoodDetail extends AppCompatActivity {
                 foods.addAll(response.body());
                 textViewViewMoreFood.setText("Xem thêm trong nhà hàng (" + foods.size() + " Items)");
 
-                ListFoodAdapter listFoodAdapter = new ListFoodAdapter(FoodDetail.this, foods);
-                recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(FoodDetail.this, RecyclerView.VERTICAL, false));
-                recyclerViewListFoods.setAdapter(listFoodAdapter);
-                listFoodAdapter.notifyDataSetChanged();
+                ListFoodOfRestaurantAdapter listFoodOfRestaurantAdapter = new ListFoodOfRestaurantAdapter(foodDetailActivity, foods);
+                recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(foodDetailActivity, RecyclerView.VERTICAL, false));
+                recyclerViewListFoods.setAdapter(listFoodOfRestaurantAdapter);
+                listFoodOfRestaurantAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<Food>> call, Throwable t) {
-                Toast.makeText(FoodDetail.this, "Call API Get All Foods Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(foodDetailActivity, "Call API Get All Foods Error!", Toast.LENGTH_SHORT).show();
             }
         });
 

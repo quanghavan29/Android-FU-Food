@@ -81,6 +81,7 @@ s
     async getAllFoodsOfRestaurant(@Req() req: Request): Promise<FoodDTO[] | undefined> {
         let restaurantId = req.query.restaurantId;
         let foodId = req.query.foodId;
+        console.log(foodId, restaurantId);
         return this.foodService.findAllFoodsByRestaurantId(restaurantId, foodId);
     }
 

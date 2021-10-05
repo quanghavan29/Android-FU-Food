@@ -13,7 +13,13 @@
         android:theme="@style/Theme.FU_Food"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.FoodDetail"
+            android:name=".activities.FoodDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.FoodDetailOld"
             android:exported="true" />
         <activity
             android:name=".activities.HomeActivity"
@@ -28,7 +34,7 @@
             android:name=".activities.SignInActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.StartAppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

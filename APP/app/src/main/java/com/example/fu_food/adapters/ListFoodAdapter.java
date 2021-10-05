@@ -8,17 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
-import com.example.fu_food.activities.FoodDetail;
-import com.example.fu_food.activities.HomeActivity;
+import com.example.fu_food.activities.FoodDetailActivity;
 import com.example.fu_food.models.Food;
-import com.example.fu_food.models.FoodCategory;
-import com.example.fu_food.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -102,7 +98,7 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.ListFo
     }
 
     public static void openDetailActivity(String foodId, String restaurantId) {
-        Intent intent = new Intent(context, FoodDetail.class);
+        Intent intent = new Intent(context, FoodDetailActivity.class);
         Bundle bundle = new Bundle();
 
         bundle.putString("FOOD_ID", foodId);
