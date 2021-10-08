@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoginDTO } from '../service/dto/user-login.dto';
+import { UserLoginDTO } from '../service/dto/auth/user-login.dto';
 import { Payload } from '../security/payload.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthorityRepository } from '../repository/authority.repository';
@@ -98,8 +98,7 @@ export class AuthService {
             throw new HttpException('Email is already in use!', HttpStatus.BAD_REQUEST);
         }
 
-        userFind.firstName = newUserInfo.firstName;
-        userFind.lastName = newUserInfo.lastName;
+        userFind.fullName = newUserInfo.fullName;
         userFind.email = newUserInfo.email;
         await this.userService.save(userFind, userLogin);
         return;

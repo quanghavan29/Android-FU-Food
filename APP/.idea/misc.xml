@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable-v24/ic_menu.xml" value="0.2859375" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/border_top_radius.xml" value="0.2703125" />
+        <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/custom_color_navigation.xml" value="0.28072916666666664" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/custom_edit_text_auth.xml" value="0.2703125" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/custom_edit_text_search.xml" value="0.22395833333333334" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/custom_ic_email.xml" value="0.2703125" />
@@ -16,6 +17,7 @@
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_back_foreground.xml" value="0.17083333333333334" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_email_focused.xml" value="0.2703125" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_favorite.xml" value="0.24947916666666667" />
+        <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_home.xml" value="0.28072916666666664" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17083333333333334" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_location.xml" value="0.26458333333333334" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/drawable/ic_menu.xml" value="0.23385416666666667" />
@@ -54,7 +56,7 @@
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/layout/nav_header.xml" value="0.2776268115942029" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/menu/my_navigation_bottom_main.xml" value="0.4" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/menu/my_navigation_home.xml" value="0.4" />
-        <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/menu/my_navigation_main.xml" value="0.21302083333333333" />
+        <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/menu/my_navigation_main.xml" value="0.4" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/mipmap-anydpi-v26/ic_back.xml" value="0.17083333333333334" />
         <entry key="..\:/FPT_U/Semester 7/PRM391_Project/Android FU Food/Android-FU-Food/APP/app/src/main/res/mipmap-anydpi-v26/ic_back_round.xml" value="0.17083333333333334" />
       </map>

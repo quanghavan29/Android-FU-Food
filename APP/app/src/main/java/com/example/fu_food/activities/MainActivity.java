@@ -147,14 +147,10 @@ public class MainActivity extends AppCompatActivity {
     private void openHomeFragment() {
         if (currentFrm != FRM_HOME) {
             replaceFragment(new HomePageFragment());
-            int size = navViewMain.getMenu().size();
+            DeselectMenuItem();
             navViewMain.getMenu().findItem(R.id.nav_home).setChecked(true);
             navViewMainBottom.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-            navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(false);
             currentFrm = FRM_HOME;
         }
     }
@@ -162,13 +158,10 @@ public class MainActivity extends AppCompatActivity {
     private void openOrderFragment() {
         if (currentFrm != FRM_ORDER) {
             replaceFragment(new OrderFragment());
+            DeselectMenuItem();
             navViewMain.getMenu().findItem(R.id.nav_order).setChecked(true);
             navViewMainBottom.getMenu().findItem(R.id.nav_order).setChecked(true);
 
-            navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(false);
             currentFrm = FRM_ORDER;
         }
     }
@@ -176,13 +169,10 @@ public class MainActivity extends AppCompatActivity {
     private void openFavoriteFragment() {
         if (currentFrm != FRM_FAVORITE) {
             replaceFragment(new FavoriteFragment());
+            DeselectMenuItem();
             navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(true);
             navViewMainBottom.getMenu().findItem(R.id.nav_my_favorite).setChecked(true);
 
-            navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(false);
             currentFrm = FRM_FAVORITE;
         }
     }
@@ -190,13 +180,10 @@ public class MainActivity extends AppCompatActivity {
     private void openNoticeFragment() {
         if (currentFrm != FRM_NOTICE) {
             replaceFragment(new NoticeFragment());
+            DeselectMenuItem();
             navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(true);
             navViewMainBottom.getMenu().findItem(R.id.nav_notice).setChecked(true);
 
-            navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(false);
             currentFrm = FRM_NOTICE;
         }
     }
@@ -204,14 +191,19 @@ public class MainActivity extends AppCompatActivity {
     private void openProfileFragment() {
         if (currentFrm != FRM_PROFILE) {
             replaceFragment(new ProfileFragment());
+            DeselectMenuItem();
             navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(true);
             navViewMainBottom.getMenu().findItem(R.id.nav_profile).setChecked(true);
 
-            navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
-            navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
             currentFrm = FRM_PROFILE;
         }
+    }
+
+    private void DeselectMenuItem() {
+        navViewMain.getMenu().findItem(R.id.nav_profile).setChecked(false);
+        navViewMain.getMenu().findItem(R.id.nav_notice).setChecked(false);
+        navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
+        navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
+        navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
     }
 }

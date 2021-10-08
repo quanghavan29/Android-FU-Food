@@ -1,5 +1,6 @@
 package com.example.fu_food.services;
 
+import com.example.fu_food.config.Config;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
 import com.google.gson.Gson;
@@ -16,9 +17,11 @@ import retrofit2.http.Query;
 public interface FoodService {
 
     Gson gson = new GsonBuilder().setDateFormat("yyyy-mm-dd HH:mm:ss").create();
+    Config config = new Config();
+    String baseUrl = config.getApiUrl();
 
     FoodService foodService = new Retrofit.Builder()
-            .baseUrl("http:192.168.230.2:8081/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(FoodService.class);
 

@@ -4,9 +4,10 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { AuthorityRepository } from "../../repository/authority.repository";
 import { UserService } from "../user.service";
 import * as bcrypt from 'bcrypt';
-import { UserSignInDTO } from "../dto/userSignIn.dto";
+import { UserSignInDTO } from "../dto/auth/userSignIn.dto";
 import { UserDTO } from "../dto/user.dto";
 import { UserRepository } from "../../repository/user.repository";
+import { UserSignUpDTO } from "../dto/auth/userSignUp.dto";
 
 @Injectable()
 export class AuthenticationService {
@@ -26,16 +27,16 @@ export class AuthenticationService {
         const userFind = await this.userService.findByPhone(signInPhone);
 
         let statusCode = 200;
-        let errorMessage = 'Sign in success!';
+        let message = 'Sign in success!';
 
         if (!userFind) {
             statusCode = 400;
-            errorMessage = 'Phone do not registered!';
+            message = 'Phone do not registered!';
         } else {
             const validPassword = !!userFind && (await bcrypt.compare(signInpassword, userFind.password));
             if (!validPassword) {
                 statusCode = 400;
-                errorMessage = 'Invalid password!';
+                message = 'Invalid password!';
             }
         }
 
@@ -46,7 +47,7 @@ export class AuthenticationService {
         return {
             user: userFind,
             statusCode: statusCode,
-            errorMessage: errorMessage,
+            message: message,
         };
 
         // const user = await this.findUserWithAuthById(userFind.id);
@@ -57,6 +58,28 @@ export class AuthenticationService {
         // return {
         //     id_token: this.jwtService.sign(payload),
         // };
+    }
+
+    async signUp(userSignup: UserSignUpDTO): Promise<any> {
+        const signUpPhone = userSignup.phone;
+
+        const userFind = await this.userService.findByPhone(signUpPhone);
+        
+        let statusCode = 200;
+        let message = 'Sign up success!';
+
+        if (userFind) {
+            statusCode = 500;
+            message = 'Phone number already exist!';
+        } else {
+            statusCode = 200;
+        }
+
+        return {
+            userSignup: userSignup,
+            statusCode: statusCode,
+            message: message,
+        };
     }
 
     async findUserWithAuthById(userId: string): Promise<UserDTO | undefined> {

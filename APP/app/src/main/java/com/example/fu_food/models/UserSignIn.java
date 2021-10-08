@@ -4,15 +4,15 @@ public class UserSignIn {
 
     private User user;
     private int statusCode;
-    private String errorMessage;
+    private String message;
 
     public UserSignIn() {
     }
 
-    public UserSignIn(User user, int statusCode, String errorMessage) {
+    public UserSignIn(User user, int statusCode, String message) {
         this.user = user;
         this.statusCode = statusCode;
-        this.errorMessage = errorMessage;
+        this.message = message;
     }
 
     public User getUser() {
@@ -31,12 +31,12 @@ public class UserSignIn {
         this.statusCode = statusCode;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserSignIn {
         return "UserSignIn{" +
                 "user=" + user +
                 ", statusCode=" + statusCode +
-                ", errorMessage='" + errorMessage + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

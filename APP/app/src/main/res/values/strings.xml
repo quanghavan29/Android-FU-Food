@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">FU_Food</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="baseUrl">http:192.168.1.4:8081/</string>
+
     <string name="home_page_fragment">Trang Chủ</string>
     <string name="order_fragment">Đơn Hàng</string>
     <string name="favorite_fragment">Sở Thích</string>

@@ -110,10 +110,10 @@ public class SignInActivity extends AppCompatActivity {
                         User user = response.body().getUser();
                         openHomePageActivity(user);
                     } else if (response.body().getStatusCode() == 400) {
-                        if (response.body().getErrorMessage().equals("Phone do not registered!")) {
+                        if (response.body().getMessage().equals("Phone do not registered!")) {
                             Toast.makeText(SignInActivity.this, "Số điện thoại chưa được đăng ký!", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (response.body().getErrorMessage().equals("Invalid password!")) {
+                            if (response.body().getMessage().equals("Invalid password!")) {
                                 Toast.makeText(SignInActivity.this, "Mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
                             }
                         }
