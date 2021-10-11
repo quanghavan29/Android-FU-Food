@@ -4,6 +4,7 @@ import com.example.fu_food.BuildConfig;
 import com.example.fu_food.config.Config;
 import com.example.fu_food.models.User;
 import com.example.fu_food.models.UserSignIn;
+import com.example.fu_food.models.UserSignUp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,4 +32,9 @@ public interface AuthService {
     @FormUrlEncoded
     @POST("api/authenticate")
     Call<UserSignIn> signIn(@Field("phone") String phone, @Field("password") String password);
+
+    // authenticate - sign up
+    @FormUrlEncoded
+    @POST("api/sign-up")
+    Call<UserSignUp> signUp(@Field("fullName") String fullName, @Field("phone") String phone, @Field("password") String password);
 }

@@ -28,6 +28,12 @@ public class StartAppActivity extends AppCompatActivity {
 
     public void openSignInActivity() {
         Intent intent = new Intent(this, SignInActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("SIGN_UP_PHONE", "");
+        bundle.putString("SIGN_UP_PASSWORD", "");
+
+        intent.putExtra("KEY_BUNDLE", bundle);
+
         startActivity(intent);
     }
 }

@@ -62,6 +62,7 @@ export class AuthenticationService {
 
     async signUp(userSignup: UserSignUpDTO): Promise<any> {
         const signUpPhone = userSignup.phone;
+        const signUpPassword = userSignup.password;
 
         const userFind = await this.userService.findByPhone(signUpPhone);
         
@@ -73,6 +74,12 @@ export class AuthenticationService {
             message = 'Phone number already exist!';
         } else {
             statusCode = 200;
+            /* 
+                - save user sign up here
+                - after save user sign up we need to hash password (use bcrypt)
+            */
+            userSignup.password = await bcrypt.hash(signUpPassword, 8); 
+            await this.userRepository.save(userSignup);
         }
 
         return {

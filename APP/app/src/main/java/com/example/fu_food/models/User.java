@@ -5,24 +5,22 @@ import java.util.List;
 public class User {
 
     private String id;
+    private String fullName;
     private String phone;
     private String password;
     private String email;
-    private String firstName;
-    private String lastName;
     private String imageUrl;
     private List<Authority> authorities;
 
     public User() {
     }
 
-    public User(String id, String phone, String password, String email, String firstName, String lastName, String imageUrl, List<Authority> authorities) {
+    public User(String id, String fullName, String phone, String password, String email, String imageUrl, List<Authority> authorities) {
         this.id = id;
+        this.fullName = fullName;
         this.phone = phone;
         this.password = password;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.imageUrl = imageUrl;
         this.authorities = authorities;
     }
@@ -33,6 +31,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPhone() {
@@ -59,22 +65,6 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -89,19 +79,5 @@ public class User {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", authorities=" + authorities +
-                '}';
     }
 }

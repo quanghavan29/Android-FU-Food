@@ -70,7 +70,7 @@
             app:layout_constraintVertical_bias="0.08" />
 
         <EditText
-            android:id="@+id/editTextPhone"
+            android:id="@+id/editTextSignUpPhone"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="40dp"
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSignUpPhone"
             app:layout_constraintVertical_bias="0.083" />
 
         <EditText
@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSignUpPhone"
             app:layout_constraintVertical_bias="0.32" />
 
         <Button

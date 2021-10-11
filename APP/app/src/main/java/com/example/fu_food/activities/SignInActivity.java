@@ -15,6 +15,7 @@ import com.example.fu_food.R;
 import com.example.fu_food.models.User;
 import com.example.fu_food.models.UserSignIn;
 import com.example.fu_food.services.AuthService;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,6 +78,9 @@ public class SignInActivity extends AppCompatActivity {
                 signIn(signInPhone, signInPassword);
             }
         });
+
+        // set data user sign up when user sign up success!
+        setUserSignUpInfo();
     }
 
     public void openSignUpActivity() {
@@ -118,7 +122,6 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         }
                     }
-
                 }
 
                 @Override
@@ -127,5 +130,18 @@ public class SignInActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void setUserSignUpInfo() {
+        Intent data = SignInActivity.this.getIntent();
+        Bundle bundle = data.getBundleExtra("KEY_BUNDLE");
+        String signUpPhone = bundle.getString("SIGN_UP_PHONE");
+        String signUpPassword = bundle.getString("SIGN_UP_PASSWORD");
+
+        editTextPhone = findViewById(R.id.editTextPhone);
+        editTextPassword = findViewById(R.id.editTextPassword);
+
+        editTextPhone.setText(signUpPhone);
+        editTextPassword.setText(signUpPassword);
     }
 }
