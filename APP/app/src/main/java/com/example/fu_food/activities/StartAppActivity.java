@@ -2,6 +2,7 @@ package com.example.fu_food.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.example.fu_food.R;
 public class StartAppActivity extends AppCompatActivity {
 
     private Button buttonWelcome;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,4 +38,5 @@ public class StartAppActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
 }

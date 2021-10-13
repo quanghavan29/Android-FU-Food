@@ -1,16 +1,21 @@
 package com.example.fu_food.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
+import com.example.fu_food.activities.FoodDetailActivity;
+import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.models.Food;
 import com.squareup.picasso.Picasso;
 
@@ -60,8 +65,37 @@ public class BestSellingFoodAdapter extends RecyclerView.Adapter<BestSellingFood
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewSalesQuantity = itemView.findViewById(R.id.textViewSalesQuantity);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // get position when user clicked
+                    int position = getAdapterPosition();
+                    // check if item still exists
+                    if(position != RecyclerView.NO_POSITION){
+                        Food foodClicked = foods.get(position);
+                        String foodId = foodClicked.getId();
+                        String restaurantId = foodClicked.getRestaurant().getId();
+                        openFoodDetailActivity(foodId, restaurantId);
+                    }
+                }
+            });
+
+
         }
 
+    }
+
+    public static void openFoodDetailActivity(String foodId, String restaurantId) {
+        Intent intent = new Intent(context, FoodDetailActivity.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putString("FOOD_ID", foodId);
+        bundle.putString("RESTAURANT_ID", restaurantId);
+
+        intent.putExtra("KEY_BUNDLE", bundle);
+
+
+        context.startActivity(intent);
     }
 
     private String convertPriceToString(int price) {

@@ -78,7 +78,7 @@
             android:background="@drawable/custom_edit_text_auth"
             android:drawableStart="@drawable/custom_ic_phone"
             android:drawablePadding="10dp"
-            android:hint="Số điện thoại"
+            android:hint="Số điện thoại +84"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -6,10 +6,10 @@ export abstract class BaseEntity {
 
     @Column({ nullable: true })
     createdBy?: string;
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdDate?: Date;
     @Column({ nullable: true })
     lastModifiedBy?: string;
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastModifiedDate?: Date;
 }

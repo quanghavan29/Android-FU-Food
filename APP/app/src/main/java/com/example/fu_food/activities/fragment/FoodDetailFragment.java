@@ -2,12 +2,16 @@ package com.example.fu_food.activities.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
+import com.example.fu_food.activities.HomeActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
+import com.example.fu_food.animation.AnimationUtil;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.services.FoodService;
 import com.squareup.picasso.Picasso;
@@ -36,8 +42,11 @@ public class FoodDetailFragment extends Fragment {
     private FrameLayout frameLayoutImageFood;
     private RecyclerView recyclerViewListFoods;
     private TextView textViewFoodName, textViewRestaurantName, textViewPrice,
-            textViewNumberOfReview, textViewSalesQuantity, textViewViewMoreFood;
+            textViewNumberOfReview, textViewSalesQuantity, textViewViewMoreFood,
+            textViewOrderQuantity;
     private View view;
+    private ImageView imageViewFoodDetail;
+    private Button buttonAdd, buttonSub, buttonAddToCart;
     private FoodDetailActivity foodDetailActivity;
 
     public FoodDetailFragment() {
@@ -51,18 +60,30 @@ public class FoodDetailFragment extends Fragment {
         foodDetailActivity = (FoodDetailActivity) getActivity();
 
         recyclerViewListFoods = view.findViewById(R.id.recyclerViewListFoods);
+
         textViewFoodName = view.findViewById(R.id.textViewFoodName);
         textViewRestaurantName = view.findViewById(R.id.textViewRestaurantName);
         textViewPrice = view.findViewById(R.id.textViewPrice);
         textViewNumberOfReview = view.findViewById(R.id.textViewNumberOfReview);
         textViewSalesQuantity = view.findViewById(R.id.textViewSalesQuantity);
         textViewViewMoreFood = view.findViewById(R.id.textViewViewMoreFood);
+        textViewOrderQuantity = view.findViewById(R.id.textViewOrderQuantity);
+
+        imageViewFoodDetail = view.findViewById(R.id.imageViewFoodDetail);
+
+        buttonAddToCart = view.findViewById(R.id.buttonAddToCart);
+        buttonAdd = view.findViewById(R.id.buttonAdd);
+        buttonSub = view.findViewById(R.id.buttonSub);
+        onClickButtonAdd();
+        onClickButtonSub();
 
         String foodId = getFoodIdBundle();
         loadFoodDetail(foodId);
 
         String restaurantId = getRestaurantIdBundle();
         setRecyclerViewListFoods(restaurantId, foodId);
+
+        onClickButtonAddToCart();
 
         return view;
     }
@@ -95,24 +116,10 @@ public class FoodDetailFragment extends Fragment {
                 textViewPrice.setText(convertPriceToString(food.getPrice()));
                 textViewNumberOfReview.setText(food.getNumberOfReview() + "");
                 textViewSalesQuantity.setText(food.getSalesQuantity() + "");
+                textViewOrderQuantity.setText("0");
 
                 Picasso.with(foodDetailActivity).load(food.getImageUrl())
-                        .into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                frameLayoutImageFood.setBackground(new BitmapDrawable(context.getResources(), bitmap));
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-                        });
+                        .into(imageViewFoodDetail);
             }
 
             @Override
@@ -147,6 +154,56 @@ public class FoodDetailFragment extends Fragment {
             }
         });
 
+    }
+
+    private void onClickButtonAdd() {
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int orderQuantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
+                orderQuantity += 1;
+                textViewOrderQuantity.setText(orderQuantity + "");
+            }
+        });
+    }
+
+    private void onClickButtonSub() {
+        buttonSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int orderQuantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
+                if (orderQuantity > 0) {
+                    orderQuantity -= 1;
+                }
+                textViewOrderQuantity.setText(orderQuantity + "");
+            }
+        });
+    }
+
+    private void onClickButtonAddToCart() {
+        buttonAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.translateAnimation(foodDetailActivity.getViewAnimation(), view, foodDetailActivity.getViewEndAnimation(), new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        int quantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
+                        foodDetailActivity.setQuantityFoodInCart(quantity);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
+        });
     }
 
     private String convertPriceToString(int price) {

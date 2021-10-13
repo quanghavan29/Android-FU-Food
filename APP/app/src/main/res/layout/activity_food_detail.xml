@@ -23,4 +23,24 @@
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/gray"/>
 
+    <View
+        android:id="@+id/viewEndAnimation"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@color/orange"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/AHBottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/viewAnimation"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        android:background="@drawable/round_button_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,7 +60,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/my_navigation_bottom_main" />
+            app:menu="@menu/my_navigation_bottom_main"
+            app:itemTextColor="@color/custom_color_navigation"
+            app:itemIconTint="@color/custom_color_navigation"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,6 +73,8 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/my_navigation_main"
-            android:background="@color/white" />
+            android:background="@color/white"
+            app:itemIconTint="@color/custom_color_navigation"
+            app:itemTextColor="@color/custom_color_navigation"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

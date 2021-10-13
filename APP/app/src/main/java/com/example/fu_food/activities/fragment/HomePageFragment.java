@@ -1,5 +1,6 @@
 package com.example.fu_food.activities.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.MainActivity;
+import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.BestSellingFoodAdapter;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodAdapter;
@@ -41,6 +43,8 @@ public class HomePageFragment extends Fragment {
     private NavigationView navViewMain;
     private MaterialToolbar toolBarMenu;
     private TextView textViewCountFoodCategories, textViewCountBestSellingFoods, textViewCountAllFoods;
+
+    ProgressDialog progressDialog;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -150,6 +154,22 @@ public class HomePageFragment extends Fragment {
             }
         });
 
+    }
+
+    private void setProgressDialog() {
+        progressDialog = new ProgressDialog(mainActivity);
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+    }
+
+    private void dismissProgressDialog() {
+        try {
+            Thread.sleep(3000);
+            progressDialog.dismiss();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            progressDialog.dismiss();
+        }
     }
 
 }

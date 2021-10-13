@@ -46,6 +46,7 @@ export class FoodService {
     async findTop10BestSellingFoods(): Promise<FoodDTO[] | undefined> {
         const resultList = await this.foodRepository.find(
             {
+                relations: ['restaurant'],
                 order: {
                     salesQuantity: 'DESC'
                 },

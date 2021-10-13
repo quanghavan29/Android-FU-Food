@@ -88,7 +88,7 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.ListFo
                         String foodId = foodClicked.getId();
                         String restaurantId = foodClicked.getRestaurant().getId();
 
-                        openDetailActivity(foodId, restaurantId);
+                        openFoodDetailActivity(foodId, restaurantId);
                     }
                 }
             });
@@ -97,7 +97,7 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.ListFo
 
     }
 
-    public static void openDetailActivity(String foodId, String restaurantId) {
+    public static void openFoodDetailActivity(String foodId, String restaurantId) {
         Intent intent = new Intent(context, FoodDetailActivity.class);
         Bundle bundle = new Bundle();
 
