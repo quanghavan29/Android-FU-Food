@@ -268,19 +268,7 @@ public class FoodDetailFragment extends Fragment {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        int quantityFoodInCart = sharedPreferences.getInt("QUANTITY_FOOD_IN_CART", 0);
-                        if (quantityFoodInCart == 0) {
-                            foodDetailActivity.setQuantityFoodInCart(orderQuantity);
-                            editor.putInt("QUANTITY_FOOD_IN_CART", orderQuantity);
-
-                            editor.commit();
-                        } else {
-                            foodDetailActivity.setQuantityFoodInCart(quantityFoodInCart + orderQuantity);
-                            editor.putInt("QUANTITY_FOOD_IN_CART", quantityFoodInCart + orderQuantity);
-
-                            editor.commit();
-                        }
-
+                        foodDetailActivity.setQuantityFoodInCart(getTotalQuantityInCart(carts));
                     }
 
                     @Override
@@ -315,5 +303,13 @@ public class FoodDetailFragment extends Fragment {
 
         return carts;
 
+    }
+
+    private int getTotalQuantityInCart(List<Cart> carts) {
+        int totalQuantity = 0;
+        for (Cart cart : carts) {
+            totalQuantity += cart.getQuantity();
+        }
+        return totalQuantity;
     }
 }

@@ -209,12 +209,12 @@
                 android:id="@+id/buttonSub"
                 android:layout_width="19dp"
                 android:layout_height="19dp"
-                android:layout_marginEnd="64dp"
+                android:layout_marginEnd="13dp"
                 android:background="@drawable/ic_sub"
                 android:backgroundTint="#FF6813"
                 android:backgroundTintMode="add"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewOrderQuantity"
                 app:layout_constraintTop_toTopOf="@+id/buttonAdd" />
 
             <TextView
@@ -248,12 +248,12 @@
                 android:id="@+id/textViewOrderQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="13dp"
                 android:text="0"
-                android:textStyle="bold"
                 android:textSize="16dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/buttonAdd"
-                app:layout_constraintEnd_toStartOf="@+id/buttonAdd"
-                app:layout_constraintStart_toEndOf="@+id/buttonSub" />
+                app:layout_constraintEnd_toStartOf="@+id/buttonAdd" />
 
             <ImageView
                 android:id="@+id/imageView12"

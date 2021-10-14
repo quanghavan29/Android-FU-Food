@@ -18,6 +18,13 @@ import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.fu_food.R;
 import com.example.fu_food.activities.fragment.ViewPagerAdapter;
 import com.example.fu_food.activities.fragment.ViewPagerFoodDetailAdapter;
+import com.example.fu_food.models.Cart;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodDetailActivity extends AppCompatActivity {
 
@@ -80,8 +87,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             }
         });
 
-        setQuantityFoodInCart(0);
-        resetCart();
+        setQuantityFoodInCart(getTotalQuantityInCart());
     }
 
     public View getViewEndAnimation() {
@@ -103,15 +109,31 @@ public class FoodDetailActivity extends AppCompatActivity {
         this.quantityFoodInCart = quantityFoodInCart;
     }
 
-    public int getQuantityFoodInCart() {
-        return quantityFoodInCart;
+    // get all item in cart from shared preferences
+    private List<Cart> getAllItemInCart() {
+        List<Cart> carts = new ArrayList<>();
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
+        String jsonString = sharedPreferences.getString("CART_FOOD", "");
+
+        if (jsonString != null && !jsonString.equals("")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Cart>>() {}.getType();
+            carts = gson.fromJson(jsonString, type);
+
+            return carts;
+        }
+
+        return carts;
+
     }
 
-    public void resetCart() {
-        SharedPreferences sharedPreferences = getSharedPreferences("CART_FILE.txt", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("QUANTITY_FOOD_IN_CART");
-
-        editor.apply();
+    private int getTotalQuantityInCart() {
+        List<Cart> carts = getAllItemInCart();
+        int totalQuantity = 0;
+        for (Cart cart : carts) {
+            totalQuantity += cart.getQuantity();
+        }
+        return totalQuantity;
     }
 }

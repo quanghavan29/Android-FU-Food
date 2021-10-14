@@ -49,9 +49,8 @@ public class CartFragment extends Fragment {
     private FoodDetailActivity foodDetailActivity;
 
     private RecyclerView recyclerViewListFoods;
-    private TextView textViewFoodName, textViewRestaurantName, textViewPrice,
-            textViewNumberOfReview, textViewSalesQuantity, textViewViewMoreFood,
-            textViewOrderQuantity;
+    private TextView textViewTotalQuantity, textViewTotalAmount;
+    private Button buttonOrder;
 
     public CartFragment() {
         // Required empty public constructor
@@ -74,6 +73,10 @@ public class CartFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_cart, container, false);
         foodDetailActivity = (FoodDetailActivity) getActivity();
 
+        textViewTotalQuantity = view.findViewById(R.id.textViewTotalQuantity);
+        textViewTotalAmount = view.findViewById(R.id.textViewTotalAmount);
+        buttonOrder = view.findViewById(R.id.buttonOrder);
+
         recyclerViewListFoods = view.findViewById(R.id.recyclerViewListFoods);
 
         setRecyclerViewListFoods();
@@ -84,7 +87,18 @@ public class CartFragment extends Fragment {
     // set item view for RecyclerViewListFoods
     public void setRecyclerViewListFoods() {
         List<Cart> carts = getAllItemInCart();
-        Toast.makeText(foodDetailActivity, "cart size: " + carts.size(), Toast.LENGTH_SHORT).show();
+
+        int totalQuantity = 0;
+        int totalAmount = 0;
+        for (Cart cart : carts) {
+            totalQuantity += cart.getQuantity();
+            totalAmount += cart.getFood().getPrice() * cart.getQuantity();
+        }
+
+        textViewTotalQuantity.setText(totalQuantity + "");
+        textViewTotalAmount.setText(convertPriceToString(totalAmount));
+        buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
+
         ListFoodInCartAdapter listFoodInCartAdapter = new ListFoodInCartAdapter(foodDetailActivity, carts);
         recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(foodDetailActivity, RecyclerView.VERTICAL, false));
         recyclerViewListFoods.setAdapter(listFoodInCartAdapter);
@@ -108,6 +122,10 @@ public class CartFragment extends Fragment {
 
         return carts;
 
+    }
+
+    private String convertPriceToString(int price) {
+        return (price / 1000) + ".000đ";
     }
 
 

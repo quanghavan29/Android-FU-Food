@@ -42,12 +42,9 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
         Picasso.with(context).load(carts.get(position).getFood().getImageUrl())
                 .into(holder.imageViewFood);
         holder.textViewRestaurantName.setText(carts.get(position).getRestaurant().getName());
-        holder.textViewFoodName.setText(carts.get(position).getFood().getName());
-//        holder.textViewPrice.setText(convertPriceToString(carts.get(position).getgetPrice()));
-//        holder.textViewSalesQuantity.setText(foods.get(position).getSalesQuantity() + "");
-//        holder.textViewReviewPoint.setText(foods.get(position).getReviewPoint() + "");
-//        holder.textViewNumberOfReview.setText(foods.get(position).getNumberOfReview() + "");
-//        holder.textViewFoodType.setText(foods.get(position).getFoodCategory().getName());
+        holder.textViewFoodName.setText(carts.get(position).getFood().getName()  + " - ");
+        holder.textViewOrderQuantity.setText(carts.get(position).getQuantity() + "");
+        holder.textViewSubTotal.setText(convertPriceToString(Integer.parseInt(String.valueOf(carts.get(position).getFood().getPrice() * carts.get(position).getQuantity()))));
     }
 
     @Override
@@ -58,9 +55,8 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
     public static class ListFoodInCartViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewFood;
-        TextView textViewRestaurantName, textViewFoodName, textViewPointVoting,
-                textViewSalesQuantity, textViewPrice, textViewReviewPoint,
-                textViewNumberOfReview, textViewFoodType;
+        TextView textViewRestaurantName, textViewFoodName, textViewOrderQuantity,
+                 textViewSubTotal;
 
         public ListFoodInCartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,12 +64,8 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
             imageViewFood = itemView.findViewById(R.id.imageViewFood);
             textViewRestaurantName = itemView.findViewById(R.id.textViewRestaurantName);
             textViewFoodName = itemView.findViewById(R.id.textViewFoodName);
-            textViewPointVoting = itemView.findViewById(R.id.textViewReviewPoint);
-            textViewSalesQuantity = itemView.findViewById(R.id.textViewSalesQuantity);
-            textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            textViewReviewPoint = itemView.findViewById(R.id.textViewReviewPoint);
-            textViewNumberOfReview = itemView.findViewById(R.id.textViewNumberOfReview);
-            textViewFoodType = itemView.findViewById(R.id.textViewFoodType);
+            textViewOrderQuantity = itemView.findViewById(R.id.textViewOrderQuantity);
+            textViewSubTotal = itemView.findViewById(R.id.textViewSubTotal);
 
         }
 
