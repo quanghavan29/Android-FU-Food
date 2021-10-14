@@ -1,6 +1,9 @@
 package com.example.fu_food.activities.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fu_food.R;
+import com.example.fu_food.activities.HomeActivity;
 import com.example.fu_food.activities.MainActivity;
 import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.BestSellingFoodAdapter;
@@ -26,6 +31,7 @@ import com.example.fu_food.services.FoodCategoryService;
 import com.example.fu_food.services.FoodService;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +65,7 @@ public class HomePageFragment extends Fragment {
         recyclerViewFoodCategories = view.findViewById(R.id.recyclerViewFoodCategories);
         recyclerViewBestSellingFood = view.findViewById(R.id.recyclerViewBestSellingFood);
         recyclerViewListFoods = view.findViewById(R.id.recyclerViewListFoods);
+
         textViewCountFoodCategories = view.findViewById(R.id.textViewCountFoodCategories);
         textViewCountBestSellingFoods = view.findViewById(R.id.textViewCountBestSellingFoods);
         textViewCountAllFoods = view.findViewById(R.id.textViewCountAllFoods);

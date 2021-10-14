@@ -9,6 +9,7 @@
     <string name="favorite_fragment">Sở Thích</string>
     <string name="notice_fragment">Thông Báo</string>
     <string name="profile_fragment">Thông Tin Cá Nhân</string>
+    <string name="message_fragment">Chat với cửa hàng</string>
 
     <string name="tab_home_page">Home</string>
     <string name="tab_order">Đơn hàng</string>

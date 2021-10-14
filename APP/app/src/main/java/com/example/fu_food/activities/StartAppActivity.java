@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,11 @@ public class StartAppActivity extends AppCompatActivity {
         bundle.putString("SIGN_UP_PASSWORD", "");
 
         intent.putExtra("KEY_BUNDLE", bundle);
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences("USER_FILE.txt", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesCart = getSharedPreferences("CART_FILE.txt", MODE_PRIVATE);
+        sharedPreferencesUser.edit().clear().commit();
+        sharedPreferencesCart.edit().clear().commit();
 
         startActivity(intent);
     }

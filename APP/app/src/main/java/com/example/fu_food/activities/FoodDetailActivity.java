@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,9 +46,13 @@ public class FoodDetailActivity extends AppCompatActivity {
         ahBottomNavigationViewPager.setPagingEnabled(true);
 //        ahBottomNavigation.setColored(true);
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_food_detail, R.drawable.ic_cart, R.color.gray);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.ic_food_bank, R.color.gray);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_cart, R.color.gray);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_message, R.color.gray);
 
         ahBottomNavigation.addItem(item1);
+        ahBottomNavigation.addItem(item2);
+        ahBottomNavigation.addItem(item3);
         ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.orange));
 
         ahBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
@@ -76,6 +81,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         });
 
         setQuantityFoodInCart(0);
+        resetCart();
     }
 
     public View getViewEndAnimation() {
@@ -92,13 +98,20 @@ public class FoodDetailActivity extends AppCompatActivity {
                 .setBackgroundColor(ContextCompat.getColor(FoodDetailActivity.this, R.color.orange))
                 .setTextColor(ContextCompat.getColor(FoodDetailActivity.this, R.color.white))
                 .build();
-        ahBottomNavigation.setNotification(notification, 0);
+        ahBottomNavigation.setNotification(notification, 1);
 
         this.quantityFoodInCart = quantityFoodInCart;
-
     }
 
     public int getQuantityFoodInCart() {
         return quantityFoodInCart;
+    }
+
+    public void resetCart() {
+        SharedPreferences sharedPreferences = getSharedPreferences("CART_FILE.txt", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("QUANTITY_FOOD_IN_CART");
+
+        editor.apply();
     }
 }

@@ -11,9 +11,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -29,6 +31,7 @@ import com.example.fu_food.activities.fragment.ViewPagerAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navViewMain;
     private BottomNavigationView navViewMainBottom;
     private Toolbar toolBarMenu;
+    private ImageView imageViewProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         navViewMain = (NavigationView) findViewById(R.id.navViewMain);
         navViewMainBottom = findViewById(R.id.navViewMainBottom);
         toolBarMenu = findViewById(R.id.toolBarMenu);
+        imageViewProfileImage = findViewById(R.id.imageViewProfileImage);
+        setImageProfile();
 
         replaceFragment(new HomePageFragment());
         navViewMain.getMenu().findItem(R.id.nav_home).setChecked(true);
@@ -205,5 +211,18 @@ public class MainActivity extends AppCompatActivity {
         navViewMain.getMenu().findItem(R.id.nav_my_favorite).setChecked(false);
         navViewMain.getMenu().findItem(R.id.nav_order).setChecked(false);
         navViewMain.getMenu().findItem(R.id.nav_home).setChecked(false);
+    }
+
+    private void setImageProfile() {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_FILE.txt", MODE_PRIVATE);
+        String imageUrl = sharedPreferences.getString("USER_IMAGE", "");
+
+        // if don't have image url => set image profile default
+        if (imageUrl.equals("") || imageUrl == null) {
+            imageViewProfileImage.setImageResource(R.drawable.profile_image_default);
+        } else {
+            Picasso.with(MainActivity.this).load(imageUrl)
+                    .into(imageViewProfileImage);
+        }
     }
 }

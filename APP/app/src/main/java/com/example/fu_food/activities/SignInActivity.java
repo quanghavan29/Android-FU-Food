@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -112,6 +113,16 @@ public class SignInActivity extends AppCompatActivity {
                     if (response.body().getStatusCode() == 200) {
                         Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         User user = response.body().getUser();
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("USER_FILE.txt", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("USER_ID", user.getId());
+                        editor.putString("USER_PHONE", user.getPhone());
+                        editor.putString("USER_IMAGE", user.getImageUrl());
+                        editor.putString("USER_FULL_NAME", user.getFullName());
+
+                        editor.commit();
+
                         openHomePageActivity(user);
                     } else if (response.body().getStatusCode() == 400) {
                         if (response.body().getMessage().equals("Phone do not registered!")) {

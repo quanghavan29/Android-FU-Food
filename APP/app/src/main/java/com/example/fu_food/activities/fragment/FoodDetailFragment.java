@@ -1,6 +1,8 @@
 package com.example.fu_food.activities.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,14 +25,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
 import com.example.fu_food.activities.HomeActivity;
+import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
 import com.example.fu_food.animation.AnimationUtil;
+import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
+import com.example.fu_food.models.Restaurant;
 import com.example.fu_food.services.FoodService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +81,9 @@ public class FoodDetailFragment extends Fragment {
         imageViewFoodDetail = view.findViewById(R.id.imageViewFoodDetail);
 
         buttonAddToCart = view.findViewById(R.id.buttonAddToCart);
+        buttonAddToCart.setEnabled(false);
+        buttonAddToCart.setBackgroundTintList(ContextCompat.getColorStateList(foodDetailActivity, R.color.grey));
+
         buttonAdd = view.findViewById(R.id.buttonAdd);
         buttonSub = view.findViewById(R.id.buttonSub);
         onClickButtonAdd();
@@ -163,6 +175,8 @@ public class FoodDetailFragment extends Fragment {
                 int orderQuantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
                 orderQuantity += 1;
                 textViewOrderQuantity.setText(orderQuantity + "");
+                buttonAddToCart.setEnabled(true);
+                buttonAddToCart.setBackgroundTintList(ContextCompat.getColorStateList(foodDetailActivity, R.color.orange_order));
             }
         });
     }
@@ -176,6 +190,10 @@ public class FoodDetailFragment extends Fragment {
                     orderQuantity -= 1;
                 }
                 textViewOrderQuantity.setText(orderQuantity + "");
+                if (orderQuantity == 0){
+                    buttonAddToCart.setEnabled(false);
+                    buttonAddToCart.setBackgroundTintList(ContextCompat.getColorStateList(foodDetailActivity, R.color.grey));
+                }
             }
         });
     }
@@ -184,17 +202,85 @@ public class FoodDetailFragment extends Fragment {
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // get info food and restaurant to add food to cart
+                String foodId = getFoodIdBundle();
+                String restaurantId = getRestaurantIdBundle();
+                int orderQuantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
+
+                // get all item in cart
+                List<Cart> carts = getAllItemInCart();
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                FoodService.foodService.getFoodById(foodId).enqueue(new Callback<Food>() {
+                    @Override
+                    public void onResponse(Call<Food> call, Response<Food> response) {
+                        Food food = response.body();
+                        Restaurant restaurant = food.getRestaurant();
+
+                        // if cart is empty
+                        if (carts.isEmpty()) {
+                            // add food to cart here and save cart to shared preferences
+                            carts.add(new Cart(restaurant, food, orderQuantity, 70000));
+                        } else {
+                            // if cart is exist => check food item exist in cart
+                            boolean isCartItemExist = false;
+
+                            for (Cart item : carts) {
+                                // if food exist in cart => add more orderQuantity to this food
+                                if (item.getRestaurant().getId().equals(restaurantId) && item.getFood().getId().equals(foodId)) {
+                                    item.setQuantity(item.getQuantity() + orderQuantity);
+                                    isCartItemExist = true; // and set isCartItemExist = true
+                                    break;
+                                }
+                            }
+
+                            // if food does not exist in cart
+                            if (isCartItemExist == false) {
+                                // add food to cart
+                                carts.add(new Cart(restaurant, food, orderQuantity, 70000));
+                            }
+
+                        }
+
+                        // save cart to shared preferences
+
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(carts);
+
+                        editor.putString("CART_FOOD", jsonString);
+                        editor.commit();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Food> call, Throwable t) {
+                        Toast.makeText(foodDetailActivity, "Call API Get Food Detail Error!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 AnimationUtil.translateAnimation(foodDetailActivity.getViewAnimation(), view, foodDetailActivity.getViewEndAnimation(), new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
 
                     }
 
-
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        int quantity = Integer.parseInt(textViewOrderQuantity.getText().toString());
-                        foodDetailActivity.setQuantityFoodInCart(quantity);
+                        int quantityFoodInCart = sharedPreferences.getInt("QUANTITY_FOOD_IN_CART", 0);
+                        if (quantityFoodInCart == 0) {
+                            foodDetailActivity.setQuantityFoodInCart(orderQuantity);
+                            editor.putInt("QUANTITY_FOOD_IN_CART", orderQuantity);
+
+                            editor.commit();
+                        } else {
+                            foodDetailActivity.setQuantityFoodInCart(quantityFoodInCart + orderQuantity);
+                            editor.putInt("QUANTITY_FOOD_IN_CART", quantityFoodInCart + orderQuantity);
+
+                            editor.commit();
+                        }
+
                     }
 
                     @Override
@@ -202,11 +288,32 @@ public class FoodDetailFragment extends Fragment {
 
                     }
                 });
+
+                List<Cart> carts2 = getAllItemInCart();
             }
         });
     }
 
     private String convertPriceToString(int price) {
         return (price / 1000) + ".000đ";
+    }
+
+    // get all item in cart from shared preferences
+    private List<Cart> getAllItemInCart() {
+        List<Cart> carts = new ArrayList<>();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
+        String jsonString = sharedPreferences.getString("CART_FOOD", "");
+
+        if (jsonString != null && !jsonString.equals("")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Cart>>() {}.getType();
+            carts = gson.fromJson(jsonString, type);
+
+            return carts;
+        }
+
+        return carts;
+
     }
 }

@@ -18,7 +18,10 @@ public class ViewPagerFoodDetailAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 return new FoodDetailFragment();
-
+            case 1:
+                return new CartFragment();
+            case 2:
+                return new MessageFragment();
             default:
                 return new FoodDetailFragment();
         }
@@ -26,7 +29,7 @@ public class ViewPagerFoodDetailAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 3;
     }
 
 }

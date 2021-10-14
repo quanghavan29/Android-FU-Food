@@ -14,5 +14,8 @@
     <color name="red">#EA4335</color>
     <color name="lightgrey">#989797</color>
     <color name="underline">#D8D6D6</color>
+    <color name="grey">#A9A9A9</color>FF6813
+    <color name="orange_order">#FF6813</color>
+
 
 </resources>
