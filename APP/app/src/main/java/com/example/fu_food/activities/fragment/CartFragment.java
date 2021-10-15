@@ -27,6 +27,7 @@ import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodInCartAdapter;
 import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
 import com.example.fu_food.animation.AnimationUtil;
+import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.Restaurant;
@@ -99,7 +100,46 @@ public class CartFragment extends Fragment {
         textViewTotalAmount.setText(convertPriceToString(totalAmount));
         buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
 
-        ListFoodInCartAdapter listFoodInCartAdapter = new ListFoodInCartAdapter(foodDetailActivity, carts);
+        ListFoodInCartAdapter listFoodInCartAdapter = new ListFoodInCartAdapter(foodDetailActivity, carts, new ListFoodInCartAdapter.IOnClickItemCartListener() {
+            @Override
+            public void onClickButtonAdd(Cart cart) {
+
+                int totalQuantity = Integer.parseInt(textViewTotalQuantity.getText().toString());
+                int totalAmount = getTotalAmount();
+                totalQuantity += 1;
+                totalAmount += cart.getFood().getPrice();
+
+                textViewTotalQuantity.setText(totalQuantity + "");
+                textViewTotalAmount.setText(convertPriceToString(totalAmount));
+                buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
+
+                foodDetailActivity.setQuantityFoodInCart(totalQuantity);
+
+            }
+
+            @Override
+            public void onClickButtonSub(Cart cart) {
+
+                int totalQuantity = Integer.parseInt(textViewTotalQuantity.getText().toString());
+                int totalAmount = getTotalAmount();
+                if (cart.getQuantity() > 1) {
+                    totalQuantity -= 1;
+                    totalAmount -= cart.getFood().getPrice();
+                }
+
+                textViewTotalQuantity.setText(totalQuantity + "");
+                textViewTotalAmount.setText(convertPriceToString(totalAmount));
+                buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
+
+                foodDetailActivity.setQuantityFoodInCart(totalQuantity);
+
+            }
+
+            @Override
+            public void onClickButtonDelete(Cart cart) {
+
+            }
+        });
         recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(foodDetailActivity, RecyclerView.VERTICAL, false));
         recyclerViewListFoods.setAdapter(listFoodInCartAdapter);
         listFoodInCartAdapter.notifyDataSetChanged();
@@ -124,9 +164,20 @@ public class CartFragment extends Fragment {
 
     }
 
+    public int getTotalAmount() {
+        List<Cart> carts = SharedPrefConfig.getCartsPref(getActivity());
+
+        int totalAmount = 0;
+        for (Cart cart : carts) {
+            totalAmount += cart.getFood().getPrice() * cart.getQuantity();
+        }
+
+        return totalAmount;
+
+    }
+
     private String convertPriceToString(int price) {
         return (price / 1000) + ".000đ";
     }
-
 
 }
