@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -99,6 +100,18 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
                 SharedPrefConfig.saveCartFoodSharedPref(context, carts);
             }
         });
+
+        holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iOnClickItemCartListener.onClickButtonDelete(cart);
+                carts.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+
+                carts.remove(cart);
+                SharedPrefConfig.saveCartFoodSharedPref(context, carts);
+            }
+        });
     }
 
     @Override
@@ -108,7 +121,7 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
 
     public static class ListFoodInCartViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageViewFood;
+        ImageView imageViewFood, imageViewDelete;
         TextView textViewRestaurantName, textViewFoodName, textViewOrderQuantity,
                  textViewSubTotal;
         Button buttonAdd, buttonSub;
@@ -117,6 +130,8 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
             super(itemView);
 
             imageViewFood = itemView.findViewById(R.id.imageViewFood);
+            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+
             textViewRestaurantName = itemView.findViewById(R.id.textViewRestaurantName);
             textViewFoodName = itemView.findViewById(R.id.textViewFoodName);
             textViewOrderQuantity = itemView.findViewById(R.id.textViewOrderQuantity);

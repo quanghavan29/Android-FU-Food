@@ -18,6 +18,7 @@ import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.fu_food.R;
 import com.example.fu_food.activities.fragment.ViewPagerAdapter;
 import com.example.fu_food.activities.fragment.ViewPagerFoodDetailAdapter;
+import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -111,21 +112,9 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     // get all item in cart from shared preferences
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = new ArrayList<>();
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
-        String jsonString = sharedPreferences.getString("CART_FOOD", "");
-
-        if (jsonString != null && !jsonString.equals("")) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Cart>>() {}.getType();
-            carts = gson.fromJson(jsonString, type);
-
-            return carts;
-        }
+        List<Cart> carts = SharedPrefConfig.getCartsPref(FoodDetailActivity.this);
 
         return carts;
-
     }
 
     private int getTotalQuantityInCart() {

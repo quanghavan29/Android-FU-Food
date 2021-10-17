@@ -29,6 +29,7 @@ import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
 import com.example.fu_food.animation.AnimationUtil;
+import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.Restaurant;
@@ -61,6 +62,13 @@ public class FoodDetailFragment extends Fragment {
     public FoodDetailFragment() {
         // Required empty public constructor
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        foodDetailActivity.setQuantityFoodInCart(getTotalQuantityInCart(getAllItemInCart()));
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -210,9 +218,6 @@ public class FoodDetailFragment extends Fragment {
                 // get all item in cart
                 List<Cart> carts = getAllItemInCart();
 
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-
                 FoodService.foodService.getFoodById(foodId).enqueue(new Callback<Food>() {
                     @Override
                     public void onResponse(Call<Food> call, Response<Food> response) {
@@ -245,12 +250,7 @@ public class FoodDetailFragment extends Fragment {
                         }
 
                         // save cart to shared preferences
-
-                        Gson gson = new Gson();
-                        String jsonString = gson.toJson(carts);
-
-                        editor.putString("CART_FOOD", jsonString);
-                        editor.commit();
+                        SharedPrefConfig.saveCartFoodSharedPref(foodDetailActivity, carts);
 
                     }
 
@@ -288,18 +288,7 @@ public class FoodDetailFragment extends Fragment {
 
     // get all item in cart from shared preferences
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = new ArrayList<>();
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
-        String jsonString = sharedPreferences.getString("CART_FOOD", "");
-
-        if (jsonString != null && !jsonString.equals("")) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Cart>>() {}.getType();
-            carts = gson.fromJson(jsonString, type);
-
-            return carts;
-        }
+        List<Cart> carts = SharedPrefConfig.getCartsPref(foodDetailActivity);
 
         return carts;
 

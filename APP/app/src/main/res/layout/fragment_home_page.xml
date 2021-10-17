@@ -166,56 +166,6 @@
                 app:layout_constraintStart_toEndOf="@+id/textViewCategory"
                 app:layout_constraintTop_toTopOf="@+id/textViewCategory" />
 
-            <TextView
-                android:id="@+id/textViewFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đồ ăn"
-                android:textColor="#808080"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewCountAllFoods"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.58"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewCountAllFoods" />
-
-            <TextView
-                android:id="@+id/textViewDrinks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đồ uống"
-                android:textColor="#808080"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerViewListFoods"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.73"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewFood"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/textViewNoodle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bún Phở"
-                android:textColor="#808080"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerViewListFoods"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewFood"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/textViewAllFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tất cả"
-                android:textColor="#808080"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewCountAllFoods"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.46"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewCountAllFoods" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

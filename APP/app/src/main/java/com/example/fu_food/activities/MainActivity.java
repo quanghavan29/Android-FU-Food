@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setImageProfile() {
-        SharedPreferences sharedPreferences = getSharedPreferences("USER_FILE.txt", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN_FILE.txt", MODE_PRIVATE);
         String imageUrl = sharedPreferences.getString("USER_IMAGE", "");
 
         // if don't have image url => set image profile default

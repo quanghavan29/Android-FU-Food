@@ -96,7 +96,12 @@ public class HomeActivity extends AppCompatActivity {
 
                 textViewCountFoodCategories.setText("(" + foodCategories.size() + " Danh Mục)");
 
-                FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter(foodCategories, HomeActivity.this);
+                FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter(foodCategories, HomeActivity.this, new FoodCategoryAdapter.IOnClickItemFoodCategoriesListener() {
+                    @Override
+                    public void onClickFoodType(FoodCategory foodCategory) {
+
+                    }
+                });
                 recyclerViewFoodCategories.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.HORIZONTAL, false));
                 recyclerViewFoodCategories.setAdapter(foodCategoryAdapter);
                 foodCategoryAdapter.notifyDataSetChanged();

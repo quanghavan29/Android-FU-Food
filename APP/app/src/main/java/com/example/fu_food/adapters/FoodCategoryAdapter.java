@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.HomeActivity;
+import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
 import com.google.android.material.card.MaterialCardView;
@@ -27,13 +28,20 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
 
     public static Context context;
     public static List<FoodCategory> foodCategories;
+    public static IOnClickItemFoodCategoriesListener iOnClickItemFoodCategoriesListener;
+
+    public interface IOnClickItemFoodCategoriesListener {
+        void onClickFoodType(FoodCategory foodCategory);
+
+    }
 
     public FoodCategoryAdapter() {
     }
 
-    public FoodCategoryAdapter(List<FoodCategory> foodCategories, Context context) {
+    public FoodCategoryAdapter(List<FoodCategory> foodCategories, Context context, IOnClickItemFoodCategoriesListener iOnClickItemFoodCategoriesListener) {
         this.context = context;
         this.foodCategories = foodCategories;
+        this.iOnClickItemFoodCategoriesListener = iOnClickItemFoodCategoriesListener;
     }
 
     public static class FoodCategoryViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +65,9 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
                     // check if item still exists
                     if(position != RecyclerView.NO_POSITION){
                         FoodCategory foodCategoryClicked = foodCategories.get(position);
-                        Toast.makeText(view.getContext(), "You clicked " + foodCategoryClicked.getId(), Toast.LENGTH_SHORT).show();
+                        iOnClickItemFoodCategoriesListener.onClickFoodType(foodCategoryClicked);
+//                        name.setTextColor(context.getResources().getColor(R.color.orange));
+//                        cardView.setStrokeColor(context.getResources().getColor(R.color.orange));
                     }
                 }
             });
@@ -83,10 +93,10 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
                     .into(holder.image);
         }
         holder.name.setText(foodCategories.get(position).getName());
-        if (foodCategories.get(position).getId().equals("all_food")) {
-            holder.name.setTextColor(context.getResources().getColor(R.color.orange));
-            holder.cardView.setStrokeColor(context.getResources().getColor(R.color.orange));
-        }
+//        if (foodCategories.get(position).getId().equals("allFood")) {
+//            holder.name.setTextColor(context.getResources().getColor(R.color.orange));
+//            holder.cardView.setStrokeColor(context.getResources().getColor(R.color.orange));
+//        }
     }
 
     @Override

@@ -48,7 +48,8 @@ public class HomePageFragment extends Fragment {
     private DrawerLayout drawerLayoutHomePage;
     private NavigationView navViewMain;
     private MaterialToolbar toolBarMenu;
-    private TextView textViewCountFoodCategories, textViewCountBestSellingFoods, textViewCountAllFoods;
+    private TextView textViewCountFoodCategories, textViewCountBestSellingFoods, textViewCountAllFoods,
+                     textViewAllFoods;
 
     ProgressDialog progressDialog;
 
@@ -69,6 +70,7 @@ public class HomePageFragment extends Fragment {
         textViewCountFoodCategories = view.findViewById(R.id.textViewCountFoodCategories);
         textViewCountBestSellingFoods = view.findViewById(R.id.textViewCountBestSellingFoods);
         textViewCountAllFoods = view.findViewById(R.id.textViewCountAllFoods);
+        textViewAllFoods = view.findViewById(R.id.textViewAllFoods);
 
         drawerLayoutHomePage = view.findViewById(R.id.drawerLayoutMain);
         navViewMain = (NavigationView) view.findViewById(R.id.navViewMain);
@@ -91,12 +93,18 @@ public class HomePageFragment extends Fragment {
         FoodCategoryService.foodCategoryService.getAllFoodCategories().enqueue(new Callback<List<FoodCategory>>() {
             @Override
             public void onResponse(Call<List<FoodCategory>> call, Response<List<FoodCategory>> response) {
-                foodCategories.add(new FoodCategory("all_food", "Tất Cả", "https://res.cloudinary.com/fpt-food/image/upload/v1632993707/FPT%20FOOD/all_food_zubkbn.jpg"));
+                foodCategories.add(new FoodCategory("allFood", "Tất Cả", "https://res.cloudinary.com/fpt-food/image/upload/v1632993707/FPT%20FOOD/all_food_zubkbn.jpg"));
                 foodCategories.addAll(response.body());
 
                 textViewCountFoodCategories.setText("(" + foodCategories.size() + " Danh Mục)");
 
-                FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter(foodCategories, mainActivity);
+                FoodCategoryAdapter foodCategoryAdapter = new FoodCategoryAdapter(foodCategories, mainActivity, new FoodCategoryAdapter.IOnClickItemFoodCategoriesListener() {
+                    @Override
+                    public void onClickFoodType(FoodCategory foodCategory) {
+                        setRecyclerViewListFoods(foodCategory.getId());
+                        textViewAllFoods.setText(foodCategory.getName());
+                    }
+                });
                 recyclerViewFoodCategories.setLayoutManager(new LinearLayoutManager(mainActivity, RecyclerView.HORIZONTAL, false));
                 recyclerViewFoodCategories.setAdapter(foodCategoryAdapter);
                 foodCategoryAdapter.notifyDataSetChanged();

@@ -137,7 +137,15 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onClickButtonDelete(Cart cart) {
+                int totalQuantity = Integer.parseInt(textViewTotalQuantity.getText().toString());
+                int totalAmount = getTotalAmount();
 
+                totalQuantity -= cart.getQuantity();
+                totalAmount -= cart.getFood().getPrice() * cart.getQuantity();
+
+                textViewTotalQuantity.setText(totalQuantity + "");
+                textViewTotalAmount.setText(convertPriceToString(totalAmount));
+                buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
             }
         });
         recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(foodDetailActivity, RecyclerView.VERTICAL, false));
@@ -147,18 +155,7 @@ public class CartFragment extends Fragment {
 
 
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = new ArrayList<>();
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CART_FILE.txt", Context.MODE_PRIVATE);
-        String jsonString = sharedPreferences.getString("CART_FOOD", "");
-
-        if (jsonString != null && !jsonString.equals("")) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Cart>>() {}.getType();
-            carts = gson.fromJson(jsonString, type);
-
-            return carts;
-        }
+        List<Cart> carts = SharedPrefConfig.getCartsPref(foodDetailActivity);
 
         return carts;
 

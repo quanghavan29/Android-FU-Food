@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.example.fu_food.activities.fragment.CartFragment;
 import com.example.fu_food.models.Cart;
+import com.example.fu_food.models.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +46,19 @@ public class SharedPrefConfig {
         }
 
         return carts;
+    }
+
+    public static void saveUserLoginSharedPref(Context context, User user) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("USER_LOGIN.txt", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // save user login to shared preferences
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(user);
+
+        editor.putString("USER_LOGIN", jsonString);
+        editor.commit();
     }
 
 }
