@@ -79,7 +79,7 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
                 holder.textViewOrderQuantity.setText(cart.getQuantity() + "");
                 holder.textViewSubTotal.setText(convertPriceToString(Integer.parseInt(String.valueOf(cart.getFood().getPrice() * cart.getQuantity()))));
 
-                SharedPrefConfig.saveCartFoodSharedPref(context, carts);
+                SharedPrefConfig.saveCartFoodToSharedPref(context, carts);
             }
         });
 
@@ -97,7 +97,7 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
                 holder.textViewOrderQuantity.setText(cart.getQuantity() + "");
                 holder.textViewSubTotal.setText(convertPriceToString(Integer.parseInt(String.valueOf(cart.getFood().getPrice() * cart.getQuantity()))));
 
-                SharedPrefConfig.saveCartFoodSharedPref(context, carts);
+                SharedPrefConfig.saveCartFoodToSharedPref(context, carts);
             }
         });
 
@@ -109,7 +109,7 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
                 notifyItemRemoved(holder.getAdapterPosition());
 
                 carts.remove(cart);
-                SharedPrefConfig.saveCartFoodSharedPref(context, carts);
+                SharedPrefConfig.saveCartFoodToSharedPref(context, carts);
             }
         });
     }

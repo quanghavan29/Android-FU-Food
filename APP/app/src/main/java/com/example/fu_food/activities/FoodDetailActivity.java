@@ -112,11 +112,12 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     // get all item in cart from shared preferences
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = SharedPrefConfig.getCartsPref(FoodDetailActivity.this);
+        List<Cart> carts = SharedPrefConfig.getCartsFromSharedPref(FoodDetailActivity.this);
 
         return carts;
     }
 
+    // get total quantity in cart
     private int getTotalQuantityInCart() {
         List<Cart> carts = getAllItemInCart();
         int totalQuantity = 0;

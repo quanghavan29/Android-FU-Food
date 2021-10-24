@@ -7,12 +7,11 @@ import {
     UseInterceptors,
     ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { UserDTO } from '../../service/dto/user.dto';
 import { Request } from 'express';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
 import { ApiBearerAuth, ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { FoodService } from '../../service/food.service';
-import { FoodDTO } from 'src/service/dto/food.dto';
+import { FoodDTO } from '../../service/dto/food.dto';
 
 @Controller('api/foods')
 // @UseGuards(AuthGuard, RolesGuard)
@@ -30,7 +29,7 @@ s
     @ApiResponse({
         status: 200,
         description: 'List all foods',
-        type: UserDTO,
+        type: FoodDTO,
     })
     async getTop10BestSellingFoods(): Promise<FoodDTO[] | undefined> {
 
@@ -43,7 +42,7 @@ s
     @ApiResponse({
         status: 200,
         description: 'List all foods',
-        type: UserDTO,
+        type: FoodDTO,
     })
     async getAllFoods(@Req() req: Request): Promise<FoodDTO[] | undefined> {
         let foodType = req.query.foodType;
@@ -63,7 +62,7 @@ s
     @ApiResponse({
         status: 200,
         description: 'food detail',
-        type: UserDTO,
+        type: FoodDTO,
     })
     async getFoodById(@Req() req: Request): Promise<FoodDTO | undefined> {
         let foodId = req.query.foodId;
@@ -76,7 +75,7 @@ s
     @ApiResponse({
         status: 200,
         description: 'List all foods',
-        type: UserDTO,
+        type: FoodDTO,
     })
     async getAllFoodsOfRestaurant(@Req() req: Request): Promise<FoodDTO[] | undefined> {
         let restaurantId = req.query.restaurantId;

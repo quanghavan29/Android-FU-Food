@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
+import com.example.fu_food.activities.MainActivity;
+import com.example.fu_food.activities.MyOrderActivity;
 import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodInCartAdapter;
@@ -30,7 +33,11 @@ import com.example.fu_food.animation.AnimationUtil;
 import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
+import com.example.fu_food.models.Order;
 import com.example.fu_food.models.Restaurant;
+import com.example.fu_food.models.User;
+import com.example.fu_food.models.UserSignIn;
+import com.example.fu_food.services.CheckOutService;
 import com.example.fu_food.services.FoodService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,8 +57,10 @@ public class CartFragment extends Fragment {
     private FoodDetailActivity foodDetailActivity;
 
     private RecyclerView recyclerViewListFoods;
-    private TextView textViewTotalQuantity, textViewTotalAmount;
+    private TextView textViewTotalQuantity, textViewTotalAmount,
+                    textViewPhone, textViewFullName;
     private Button buttonOrder;
+    private EditText editTextAddress;
 
     public CartFragment() {
         // Required empty public constructor
@@ -76,13 +85,28 @@ public class CartFragment extends Fragment {
 
         textViewTotalQuantity = view.findViewById(R.id.textViewTotalQuantity);
         textViewTotalAmount = view.findViewById(R.id.textViewTotalAmount);
+        textViewPhone = view.findViewById(R.id.textViewPhone);
+        textViewFullName = view.findViewById(R.id.textViewFullName);
+
+        editTextAddress = view.findViewById(R.id.editTextAddress);
+
         buttonOrder = view.findViewById(R.id.buttonOrder);
 
         recyclerViewListFoods = view.findViewById(R.id.recyclerViewListFoods);
 
+        setInfoDelivery();
         setRecyclerViewListFoods();
+        checkOut();
 
         return view;
+    }
+
+    // set info delivery of user
+    private void setInfoDelivery() {
+        User user = SharedPrefConfig.getUserLoginFromSharedPref(foodDetailActivity);
+
+        textViewFullName.setText(user.getFullName() + " - ");
+        textViewPhone.setText(user.getPhone());
     }
 
     // set item view for RecyclerViewListFoods
@@ -153,16 +177,58 @@ public class CartFragment extends Fragment {
         listFoodInCartAdapter.notifyDataSetChanged();
     }
 
+    private void checkOut() {
+        buttonOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Cart> carts = SharedPrefConfig.getCartsFromSharedPref(foodDetailActivity);
 
+                if (carts.size() == 0) {
+                    Toast.makeText(foodDetailActivity, "Giỏ hàng của bạn trống!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String address = editTextAddress.getText().toString().trim();
+                    if (address.isEmpty() || address == "") {
+                        Toast.makeText(foodDetailActivity, "Hãy nhập địa chỉ giao hàng!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        int totalAmount = getTotalAmount();
+                        int totalQuantity = getTotalQuantityInCart();
+                        String userId = SharedPrefConfig.getUserLoginFromSharedPref(foodDetailActivity).getId();
+
+                        CheckOutService.checkOutService.checkOut(carts, address, userId, totalAmount, totalQuantity).enqueue(new Callback<Order>() {
+                            @Override
+                            public void onResponse(Call<Order> call, Response<Order> response) {
+                                Toast.makeText(foodDetailActivity, "Check out success!", Toast.LENGTH_SHORT).show();
+                                SharedPreferences sharedPreferencesCart = foodDetailActivity.getSharedPreferences("CART_FILE.txt", getContext().MODE_PRIVATE);
+                                sharedPreferencesCart.edit().clear().commit();
+
+                                // open my order activity
+                                Intent intent = new Intent(foodDetailActivity, MyOrderActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Order> call, Throwable t) {
+                                Toast.makeText(foodDetailActivity, "Call api error!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+    }
+
+    // get carts from shared preferences
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = SharedPrefConfig.getCartsPref(foodDetailActivity);
+        List<Cart> carts = SharedPrefConfig.getCartsFromSharedPref(foodDetailActivity);
 
         return carts;
 
     }
 
+    // get total amount of carts
     public int getTotalAmount() {
-        List<Cart> carts = SharedPrefConfig.getCartsPref(getActivity());
+        List<Cart> carts = SharedPrefConfig.getCartsFromSharedPref(getActivity());
 
         int totalAmount = 0;
         for (Cart cart : carts) {
@@ -171,6 +237,16 @@ public class CartFragment extends Fragment {
 
         return totalAmount;
 
+    }
+
+    // get total quantity in cart
+    private int getTotalQuantityInCart() {
+        List<Cart> carts = getAllItemInCart();
+        int totalQuantity = 0;
+        for (Cart cart : carts) {
+            totalQuantity += cart.getQuantity();
+        }
+        return totalQuantity;
     }
 
     private String convertPriceToString(int price) {

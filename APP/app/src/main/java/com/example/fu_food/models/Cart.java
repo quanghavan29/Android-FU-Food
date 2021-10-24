@@ -2,19 +2,27 @@ package com.example.fu_food.models;
 
 public class Cart {
 
+    private User user;
     private Restaurant restaurant;
     private Food food;
     private int quantity;
-    private int subTotal;
 
     public Cart() {
     }
 
-    public Cart(Restaurant restaurant, Food food, int quantity, int subTotal) {
+    public Cart(User user, Restaurant restaurant, Food food, int quantity) {
+        this.user = user;
         this.restaurant = restaurant;
         this.food = food;
         this.quantity = quantity;
-        this.subTotal = subTotal;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Restaurant getRestaurant() {
@@ -41,21 +49,14 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    public int getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(int subTotal) {
-        this.subTotal = subTotal;
-    }
-
     @Override
     public String toString() {
         return "Cart{" +
-                "restaurant=" + restaurant +
+                "user=" + user +
+                ", restaurant=" + restaurant +
                 ", food=" + food +
                 ", quantity=" + quantity +
-                ", subTotal=" + subTotal +
                 '}';
     }
+
 }

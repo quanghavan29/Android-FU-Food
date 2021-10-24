@@ -33,6 +33,7 @@ import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.Restaurant;
+import com.example.fu_food.models.User;
 import com.example.fu_food.services.FoodService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -210,6 +211,8 @@ public class FoodDetailFragment extends Fragment {
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // get user login from shared preferences
+                User user = SharedPrefConfig.getUserLoginFromSharedPref(foodDetailActivity);
                 // get info food and restaurant to add food to cart
                 String foodId = getFoodIdBundle();
                 String restaurantId = getRestaurantIdBundle();
@@ -218,6 +221,7 @@ public class FoodDetailFragment extends Fragment {
                 // get all item in cart
                 List<Cart> carts = getAllItemInCart();
 
+                // get food detail by food id user ordered (include: food, restaurant, category)
                 FoodService.foodService.getFoodById(foodId).enqueue(new Callback<Food>() {
                     @Override
                     public void onResponse(Call<Food> call, Response<Food> response) {
@@ -227,7 +231,7 @@ public class FoodDetailFragment extends Fragment {
                         // if cart is empty
                         if (carts.isEmpty()) {
                             // add food to cart here and save cart to shared preferences
-                            carts.add(new Cart(restaurant, food, orderQuantity, 70000));
+                            carts.add(new Cart(user, restaurant, food, orderQuantity));
                         } else {
                             // if cart is exist => check food item exist in cart
                             boolean isCartItemExist = false;
@@ -244,13 +248,13 @@ public class FoodDetailFragment extends Fragment {
                             // if food does not exist in cart
                             if (isCartItemExist == false) {
                                 // add food to cart
-                                carts.add(new Cart(restaurant, food, orderQuantity, 70000));
+                                carts.add(new Cart(user, restaurant, food, orderQuantity));
                             }
 
                         }
 
                         // save cart to shared preferences
-                        SharedPrefConfig.saveCartFoodSharedPref(foodDetailActivity, carts);
+                        SharedPrefConfig.saveCartFoodToSharedPref(foodDetailActivity, carts);
 
                     }
 
@@ -277,23 +281,23 @@ public class FoodDetailFragment extends Fragment {
                     }
                 });
 
-                List<Cart> carts2 = getAllItemInCart();
             }
         });
     }
 
+    // convert price ( example 35.000đ )
     private String convertPriceToString(int price) {
         return (price / 1000) + ".000đ";
     }
 
     // get all item in cart from shared preferences
     private List<Cart> getAllItemInCart() {
-        List<Cart> carts = SharedPrefConfig.getCartsPref(foodDetailActivity);
+        List<Cart> carts = SharedPrefConfig.getCartsFromSharedPref(foodDetailActivity);
 
         return carts;
-
     }
 
+    // get total quantity in cart
     private int getTotalQuantityInCart(List<Cart> carts) {
         int totalQuantity = 0;
         for (Cart cart : carts) {

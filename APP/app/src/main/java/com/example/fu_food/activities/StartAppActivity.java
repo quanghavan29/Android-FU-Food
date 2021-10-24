@@ -37,11 +37,6 @@ public class StartAppActivity extends AppCompatActivity {
 
         intent.putExtra("KEY_BUNDLE", bundle);
 
-        SharedPreferences sharedPreferencesUser = getSharedPreferences("USER_FILE.txt", MODE_PRIVATE);
-        SharedPreferences sharedPreferencesCart = getSharedPreferences("CART_FILE.txt", MODE_PRIVATE);
-        sharedPreferencesUser.edit().clear().commit();
-        sharedPreferencesCart.edit().clear().commit();
-
         startActivity(intent);
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fu_food.R;
+import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.User;
 import com.example.fu_food.models.UserSignIn;
 import com.example.fu_food.services.AuthService;
@@ -114,14 +115,7 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         User user = response.body().getUser();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN_FILE.txt", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("USER_ID", user.getId());
-                        editor.putString("USER_PHONE", user.getPhone());
-                        editor.putString("USER_IMAGE", user.getImageUrl());
-                        editor.putString("USER_FULL_NAME", user.getFullName());
-
-                        editor.commit();
+                        SharedPrefConfig.saveUserLoginToSharedPref(SignInActivity.this, user);
 
                         openHomePageActivity(user);
                     } else if (response.body().getStatusCode() == 400) {

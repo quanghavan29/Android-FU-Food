@@ -25,7 +25,7 @@ export class User extends BaseEntity {
     })
     @Exclude()
     password: string;
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: '' })
     imageUrl?: string;
 
 }

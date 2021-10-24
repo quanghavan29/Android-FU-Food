@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -28,6 +29,8 @@ import com.example.fu_food.activities.fragment.NoticeFragment;
 import com.example.fu_food.activities.fragment.OrderFragment;
 import com.example.fu_food.activities.fragment.ProfileFragment;
 import com.example.fu_food.activities.fragment.ViewPagerAdapter;
+import com.example.fu_food.config.SharedPrefConfig;
+import com.example.fu_food.models.User;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -135,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_profile:
                         openProfileFragment();
                         break;
+                    case R.id.nav_sign_out:
+                        SharedPrefConfig.clearSharedPref(MainActivity.this);
+                        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                        startActivity(intent);
+                        break;
 
                     default: return true;
                 }
@@ -214,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setImageProfile() {
-        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN_FILE.txt", MODE_PRIVATE);
-        String imageUrl = sharedPreferences.getString("USER_IMAGE", "");
+        User user = SharedPrefConfig.getUserLoginFromSharedPref(MainActivity.this);
+        String imageUrl = user.getImageUrl();
 
         // if don't have image url => set image profile default
         if (imageUrl.equals("") || imageUrl == null) {
