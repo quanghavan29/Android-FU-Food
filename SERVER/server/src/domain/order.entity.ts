@@ -1,9 +1,21 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
 import { User } from "./user.entity";
 
 @Entity('order')
-export class Order extends BaseEntity {
+export class Order {
+
+    @PrimaryColumn({default: (new Date()).getTime().toString()})
+    id?: string;
+
+    @Column({ nullable: true })
+    createdBy?: string;
+    @Column({ nullable: true, type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    createdDate?: Date;
+    @Column({ nullable: true })
+    lastModifiedBy?: string;
+    @Column({ nullable: true, type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    lastModifiedDate?: Date;
 
     @ManyToOne(() => User)
     user?: User
@@ -22,5 +34,8 @@ export class Order extends BaseEntity {
     
     @Column()
     totalItem?: number;
+
+    @Column()
+    status?: string;
 
 }

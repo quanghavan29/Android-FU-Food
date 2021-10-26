@@ -10,17 +10,19 @@ public class Order {
     private String address;
     private int totalAmount;
     private int totalQuantity;
+    private String status;
 
     public Order() {
     }
 
-    public Order(String id, User user, Date orderedDate, String address, int totalAmount, int totalQuantity) {
+    public Order(String id, User user, Date orderedDate, String address, int totalAmount, int totalQuantity, String status) {
         this.id = id;
         this.user = user;
         this.orderedDate = orderedDate;
         this.address = address;
         this.totalAmount = totalAmount;
         this.totalQuantity = totalQuantity;
+        this.status = status;
     }
 
     public String getId() {
@@ -71,6 +73,14 @@ public class Order {
         this.totalQuantity = totalQuantity;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -79,7 +89,8 @@ public class Order {
                 ", orderedDate=" + orderedDate +
                 ", address='" + address + '\'' +
                 ", totalAmount=" + totalAmount +
+                ", totalQuantity=" + totalQuantity +
+                ", status='" + status + '\'' +
                 '}';
     }
-
 }

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:id="@+id/cardViewBestSellingFood"
+    android:elevation="5dp"
+    app:strokeColor="@color/white"
+    android:outlineSpotShadowColor="@color/white"
+    android:outlineAmbientShadowColor="@color/white"
+    app:cardCornerRadius="2dp"
+    android:backgroundTint="@color/white"
+    android:background="@color/white"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray">
+
+        <TextView
+            android:id="@+id/textViewOrderID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="ID: 20201025093316"
+            android:textColor="@color/blue"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.085" />
+
+        <TextView
+            android:id="@+id/textViewOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã Giao Hàng"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewAddress"
+            app:layout_constraintEnd_toEndOf="@+id/textViewTotalAmount"
+            app:layout_constraintHorizontal_bias="0.996"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewAddress"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textViewOrderedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="2020-10-25 09:33:16"
+            android:textColor="#333"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewOrderID"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewOrderID"
+            app:layout_constraintVertical_bias="0.083" />
+
+        <TextView
+            android:id="@+id/textViewRestaurantName5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thành tiền: "
+            android:textColor="#333"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTotalAmount"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalAmount"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewTotalAmount" />
+
+        <TextView
+            android:id="@+id/textViewFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hà Văn Quang - "
+            android:textColor="#333"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalAmount"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewOrderID"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderID"
+            app:layout_constraintVertical_bias="0.100000024" />
+
+        <TextView
+            android:id="@+id/textViewAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ: KTX - A308R"
+            android:textColor="#333"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalAmount"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewFullName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFullName"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+        <TextView
+            android:id="@+id/textViewPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0968904963"
+            android:textColor="#333"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewFullName"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalAmount"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewFullName"
+            app:layout_constraintTop_toTopOf="@+id/textViewFullName"
+            app:layout_constraintVertical_bias="0.208" />
+
+        <TextView
+            android:id="@+id/textViewTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="235.000đ"
+            android:textColor="#FF6813"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewPhone"
+            app:layout_constraintEnd_toEndOf="@+id/textViewOrderedDate"
+            app:layout_constraintHorizontal_bias="0.997"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewPhone"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textViewOrderDetailView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:gravity="right"
+            android:paddingRight="14dp"
+            android:paddingTop="5dp"
+            android:textSize="13dp"
+            android:text="Xem chi tiết đơn hàng"
+            android:textColor="@color/blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
+
+        <TextView
+            android:id="@+id/textViewOrderQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:gravity="left"
+            android:paddingTop="5dp"
+            android:paddingLeft="14dp"
+            android:text="4 sản phẩm"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

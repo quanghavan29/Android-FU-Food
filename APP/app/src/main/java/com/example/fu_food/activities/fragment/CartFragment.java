@@ -170,6 +170,9 @@ public class CartFragment extends Fragment {
                 textViewTotalQuantity.setText(totalQuantity + "");
                 textViewTotalAmount.setText(convertPriceToString(totalAmount));
                 buttonOrder.setText("ĐẶT ĐƠN - " + convertPriceToString(totalAmount));
+
+                foodDetailActivity.setQuantityFoodInCart(totalQuantity);
+
             }
         });
         recyclerViewListFoods.setLayoutManager(new LinearLayoutManager(foodDetailActivity, RecyclerView.VERTICAL, false));
@@ -197,7 +200,7 @@ public class CartFragment extends Fragment {
                         CheckOutService.checkOutService.checkOut(carts, address, userId, totalAmount, totalQuantity).enqueue(new Callback<Order>() {
                             @Override
                             public void onResponse(Call<Order> call, Response<Order> response) {
-                                Toast.makeText(foodDetailActivity, "Check out success!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(foodDetailActivity, "Đặt đơn thành công!", Toast.LENGTH_SHORT).show();
                                 SharedPreferences sharedPreferencesCart = foodDetailActivity.getSharedPreferences("CART_FILE.txt", getContext().MODE_PRIVATE);
                                 sharedPreferencesCart.edit().clear().commit();
 

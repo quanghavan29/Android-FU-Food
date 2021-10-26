@@ -139,8 +139,16 @@ public class MainActivity extends AppCompatActivity {
                         openProfileFragment();
                         break;
                     case R.id.nav_sign_out:
+                        User user = SharedPrefConfig.getUserLoginFromSharedPref(MainActivity.this);
                         SharedPrefConfig.clearSharedPref(MainActivity.this);
                         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("SIGN_UP_PHONE", user.getPhone());
+                        bundle.putString("SIGN_UP_PASSWORD", "");
+
+                        intent.putExtra("KEY_BUNDLE", bundle);
+
                         startActivity(intent);
                         break;
 

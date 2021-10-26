@@ -21,4 +21,7 @@ export class OrderDTO extends BaseDTO {
     @ApiModelProperty({ required: false })
     totalItem?: number;
     
+    @ApiModelProperty({ required: false })
+    status?: string;
+    
 }

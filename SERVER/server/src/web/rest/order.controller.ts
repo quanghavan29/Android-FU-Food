@@ -14,6 +14,7 @@ import { LoggingInterceptor } from '../../client/interceptors/logging.intercepto
 import { ApiBearerAuth, ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { OrderService } from '../../service/order.service';
 import { OrderDTO } from '../../service/dto/order.dto';
+import { OrderItemService } from '../../service/orderitem.service';
 
 @Controller('api/orders')
 // @UseGuards(AuthGuard, RolesGuard)
@@ -23,7 +24,8 @@ import { OrderDTO } from '../../service/dto/order.dto';
 export class OrderController {
     logger = new Logger('OrderController');
     
-    constructor(private readonly orderService: OrderService) {}
+    constructor(private readonly orderService: OrderService,
+        private readonly orderItemService: OrderItemService) {}
 
     @Post('/check-out')
     @ApiOperation({ title: 'Create order' })
@@ -44,6 +46,7 @@ export class OrderController {
         console.log('carts ', carts);
 
         let orderDTO: OrderDTO = {
+            id: (new Date()).getTime().toString(),
             user: {
                 id: userId,
             },
@@ -51,12 +54,28 @@ export class OrderController {
             address: address,
             totalAmount: totalAmount,
             totalQuantity: totalQuantity,
-            totalItem: carts.length
+            totalItem: carts.length,
+            status: 'Chờ xác nhận',
         }
 
         const createdOrder = await this.orderService.save(orderDTO);
 
+        await this.orderItemService.saveAllItemOfOrder(carts, createdOrder);
+
         return createdOrder;
+    }
+  
+    @Get('/get-orders-of-user')
+    // @Roles(RoleType.ADMIN)
+    @ApiOperation({ title: 'Get the list of orders' })
+    @ApiResponse({
+        status: 200,
+        description: 'List orders of user',
+        type: OrderDTO,
+    })
+    async getAllFoodsOfRestaurant(@Req() req: Request): Promise<OrderDTO[] | undefined> {
+        let userId = req.query.userId;
+        return await this.orderService.getListOrdersOfUser(userId);
     }
 
 }

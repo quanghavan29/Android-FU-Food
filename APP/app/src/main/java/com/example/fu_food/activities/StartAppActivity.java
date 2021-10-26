@@ -8,8 +8,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.fu_food.R;
+import com.example.fu_food.config.SharedPrefConfig;
+import com.example.fu_food.models.User;
 
 public class StartAppActivity extends AppCompatActivity {
 
@@ -30,14 +33,25 @@ public class StartAppActivity extends AppCompatActivity {
     }
 
     public void openSignInActivity() {
-        Intent intent = new Intent(this, SignInActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("SIGN_UP_PHONE", "");
-        bundle.putString("SIGN_UP_PASSWORD", "");
+        User user = SharedPrefConfig.getUserLoginFromSharedPref(StartAppActivity.this);
 
-        intent.putExtra("KEY_BUNDLE", bundle);
+        if (user.getId() != null) {
+            Toast.makeText(StartAppActivity.this, "Xin Chào! " + user.getFullName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, SignInActivity.class);
 
-        startActivity(intent);
+//        Intent intent = new Intent(this, MyOrderActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("SIGN_UP_PHONE", "");
+            bundle.putString("SIGN_UP_PASSWORD", "");
+
+            intent.putExtra("KEY_BUNDLE", bundle);
+
+            startActivity(intent);
+        }
     }
+
 
 }

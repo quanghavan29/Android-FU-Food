@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -112,8 +113,8 @@ public class SignInActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserSignIn> call, Response<UserSignIn> response) {
                     if (response.body().getStatusCode() == 200) {
-                        Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         User user = response.body().getUser();
+                        Toast.makeText(SignInActivity.this, "Xin chào! " + user.getFullName(), Toast.LENGTH_SHORT).show();
 
                         SharedPrefConfig.saveUserLoginToSharedPref(SignInActivity.this, user);
 

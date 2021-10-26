@@ -9,8 +9,26 @@ export class OrderService {
     constructor(@InjectRepository(OrderRepository) private orderRepository: OrderRepository) {}
 
     async save(orderDTO: OrderDTO): Promise<OrderDTO | undefined> {
-        const createdOrder = await this.orderRepository.save(OrderMapper.fromDTOtoEntity(orderDTO));
-        return OrderMapper.fromEntityToDTO(createdOrder);
+        const newOrder = await this.orderRepository.save(OrderMapper.fromDTOtoEntity(orderDTO));
+        return OrderMapper.fromEntityToDTO(newOrder);
+    }
+
+    async getListOrdersOfUser(userId: string): Promise<OrderDTO[] | undefined> {
+        const result = await this.orderRepository.find({
+            relations: ['user'],
+            where: {
+                user: {
+                    id: userId,
+                }
+            }
+        });
+
+        const orderDTOs: OrderDTO[] = [];
+        result.forEach(order => {
+            orderDTOs.push(order);
+        });
+
+        return orderDTOs;
     }
     
 }
