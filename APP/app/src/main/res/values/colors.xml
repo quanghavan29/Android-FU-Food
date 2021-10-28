@@ -16,6 +16,7 @@
     <color name="underline">#D8D6D6</color>
     <color name="grey">#A9A9A9</color>FF6813
     <color name="orange_order">#FF6813</color>
-
-
+    <color name="pending">#F29339</color>
+    <color name="processing">#39C0FF</color>
+    <color name="success">#198754</color>
 </resources>

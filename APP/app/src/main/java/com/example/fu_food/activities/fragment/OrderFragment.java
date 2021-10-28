@@ -1,5 +1,6 @@
 package com.example.fu_food.activities.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class OrderFragment extends Fragment {
 
         recyclerViewListOrder = view.findViewById(R.id.recyclerViewListOrder);
         buttonBackToHome = view.findViewById(R.id.buttonBackToHome);
+        onClickButtonBackToHome();
         textViewOrderIsEmpty = view.findViewById(R.id.textViewOrderIsEmpty);
 
         setListOrder();
@@ -84,4 +86,15 @@ public class OrderFragment extends Fragment {
             }
         });
     }
+
+    private void onClickButtonBackToHome() {
+        buttonBackToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

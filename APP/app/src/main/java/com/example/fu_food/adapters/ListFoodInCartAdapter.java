@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
 import com.example.fu_food.activities.fragment.CartFragment;
+import com.example.fu_food.config.Config;
 import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
@@ -60,7 +61,8 @@ public class ListFoodInCartAdapter extends RecyclerView.Adapter<ListFoodInCartAd
     @Override
     public void onBindViewHolder(@NonNull ListFoodInCartAdapter.ListFoodInCartViewHolder holder, int position) {
         Cart cart = carts.get(position);
-        Picasso.with(context).load(carts.get(position).getFood().getImageUrl())
+        String imageUrl = Config.getImageUrl();
+        Picasso.with(context).load(imageUrl + carts.get(position).getFood().getImageUrl())
                 .into(holder.imageViewFood);
         holder.textViewRestaurantName.setText(carts.get(position).getRestaurant().getName());
         holder.textViewFoodName.setText(carts.get(position).getFood().getName()  + " - ");

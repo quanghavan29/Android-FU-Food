@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FU_Food"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.OrderDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.MyOrderActivity"
             android:exported="true" />
         <activity

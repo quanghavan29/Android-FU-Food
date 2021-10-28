@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
+import com.example.fu_food.config.Config;
 import com.example.fu_food.models.Food;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,8 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.ListFo
 
     @Override
     public void onBindViewHolder(@NonNull ListFoodViewHolder holder, int position) {
-        Picasso.with(context).load(foods.get(position).getImageUrl())
+        String imageUrl = Config.getImageUrl();
+        Picasso.with(context).load(imageUrl + foods.get(position).getImageUrl())
                 .into(holder.imageViewFood);
         holder.textViewRestaurantName.setText(foods.get(position).getRestaurant().getName());
         holder.textViewFoodName.setText(foods.get(position).getName());

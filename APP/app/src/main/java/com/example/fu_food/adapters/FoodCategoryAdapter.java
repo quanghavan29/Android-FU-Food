@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.HomeActivity;
+import com.example.fu_food.config.Config;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.FoodCategory;
@@ -89,7 +90,8 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
     @Override
     public void onBindViewHolder(@NonNull FoodCategoryViewHolder holder, int position) {
         if (foodCategories.get(position).getImageUrl() != null && !foodCategories.get(position).getImageUrl().equals("")) {
-            Picasso.with(context).load(foodCategories.get(position).getImageUrl())
+            String imageUrl = Config.getImageUrl();
+            Picasso.with(context).load(imageUrl + foodCategories.get(position).getImageUrl())
                     .into(holder.image);
         }
         holder.name.setText(foodCategories.get(position).getName());

@@ -29,6 +29,7 @@ import com.example.fu_food.activities.SignInActivity;
 import com.example.fu_food.adapters.FoodCategoryAdapter;
 import com.example.fu_food.adapters.ListFoodOfRestaurantAdapter;
 import com.example.fu_food.animation.AnimationUtil;
+import com.example.fu_food.config.Config;
 import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Food;
@@ -139,7 +140,8 @@ public class FoodDetailFragment extends Fragment {
                 textViewSalesQuantity.setText(food.getSalesQuantity() + "");
                 textViewOrderQuantity.setText("0");
 
-                Picasso.with(foodDetailActivity).load(food.getImageUrl())
+                String imageUrl = Config.getImageUrl();
+                Picasso.with(foodDetailActivity).load(imageUrl + food.getImageUrl())
                         .into(imageViewFoodDetail);
             }
 

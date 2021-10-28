@@ -2,6 +2,7 @@ package com.example.fu_food.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
+import com.example.fu_food.activities.MainActivity;
+import com.example.fu_food.activities.OrderDetailActivity;
 import com.example.fu_food.models.Food;
 import com.example.fu_food.models.Order;
+import com.example.fu_food.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,10 +48,20 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.List
         holder.textViewFullName.setText(orders.get(position).getUser().getFullName() + " - ");
         holder.textViewPhone.setText(orders.get(position).getUser().getPhone());
         holder.textViewAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
-        holder.textViewOrderStatus.setText(orders.get(position).getStatus());
         holder.textViewOrderQuantity.setText(orders.get(position).getTotalQuantity() + " sản phẩm");
-        holder.textViewOrderedDate.setText(orders.get(position).getOrderedDate().toString());
+        holder.textViewOrderedDate.setText(orders.get(position).getOrderedDate().toLocaleString());
         holder.textViewTotalAmount.setText(convertPriceToString(orders.get(position).getTotalAmount()));
+
+        if (orders.get(position).getStatus().equals("pending")) {
+            holder.textViewOrderStatus.setText("Chờ xác nhận");
+            holder.textViewOrderStatus.setTextColor(context.getResources().getColor(R.color.pending));
+        } else if (orders.get(position).getStatus().equals("success")) {
+            holder.textViewOrderStatus.setText("Đã giao hàng");
+            holder.textViewOrderStatus.setTextColor(context.getResources().getColor(R.color.green));
+        } else if (orders.get(position).getStatus().equals("processing")) {
+            holder.textViewOrderStatus.setText("Đang giao hàng");
+            holder.textViewOrderStatus.setTextColor(context.getResources().getColor(R.color.processing));
+        }
 
     }
 
@@ -77,24 +91,28 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.List
 
 
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    // get position when user clicked
-//                    int position = getAdapterPosition();
-//                    // check if item still exists
-//                    if(position != RecyclerView.NO_POSITION){
-//                        Food foodClicked = foods.get(position);
-//                        String foodId = foodClicked.getId();
-//                        String restaurantId = foodClicked.getRestaurant().getId();
-//                        openFoodDetailActivity(foodId, restaurantId);
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // get position when user clicked
+                    int position = getAdapterPosition();
+                    // check if item still exists
+                    if(position != RecyclerView.NO_POSITION){
+                        Order orderClicked = orders.get(position);
+                        String orderClickedId = orderClicked.getId();
+                        openOrderDetail();
+                    }
+                }
+            });
 
 
         }
 
+    }
+
+    private static void openOrderDetail() {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        context.startActivity(intent);
     }
 
     private String convertPriceToString(int price) {

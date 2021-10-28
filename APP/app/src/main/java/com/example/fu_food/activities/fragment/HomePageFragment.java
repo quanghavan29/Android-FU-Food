@@ -93,7 +93,7 @@ public class HomePageFragment extends Fragment {
         FoodCategoryService.foodCategoryService.getAllFoodCategories().enqueue(new Callback<List<FoodCategory>>() {
             @Override
             public void onResponse(Call<List<FoodCategory>> call, Response<List<FoodCategory>> response) {
-                foodCategories.add(new FoodCategory("allFood", "Tất Cả", "https://res.cloudinary.com/fpt-food/image/upload/v1632993707/FPT%20FOOD/all_food_zubkbn.jpg"));
+                foodCategories.add(new FoodCategory("allFood", "Tất Cả", "all_food_zubkbn.jpg"));
                 foodCategories.addAll(response.body());
 
                 textViewCountFoodCategories.setText("(" + foodCategories.size() + " Danh Mục)");

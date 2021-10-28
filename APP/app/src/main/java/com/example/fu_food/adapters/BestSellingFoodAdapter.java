@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fu_food.R;
 import com.example.fu_food.activities.FoodDetailActivity;
 import com.example.fu_food.activities.SignInActivity;
+import com.example.fu_food.config.Config;
 import com.example.fu_food.models.Food;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +41,8 @@ public class BestSellingFoodAdapter extends RecyclerView.Adapter<BestSellingFood
 
     @Override
     public void onBindViewHolder(@NonNull BestSellingFoodViewHolder holder, int position) {
-        Picasso.with(context).load(foods.get(position).getImageUrl())
+        String imageUrl = Config.getImageUrl();
+        Picasso.with(context).load(imageUrl + foods.get(position).getImageUrl())
                 .into(holder.imageViewBestSellingFood);
         holder.textViewFoodName.setText(foods.get(position).getName());
         holder.textViewPrice.setText(convertPriceToString(foods.get(position).getPrice()));

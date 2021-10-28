@@ -55,7 +55,7 @@ export class OrderController {
             totalAmount: totalAmount,
             totalQuantity: totalQuantity,
             totalItem: carts.length,
-            status: 'Chờ xác nhận',
+            status: 'pending',
         }
 
         const createdOrder = await this.orderService.save(orderDTO);
