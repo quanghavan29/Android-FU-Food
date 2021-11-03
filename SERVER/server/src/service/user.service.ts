@@ -63,6 +63,10 @@ export class UserService {
         return this.save(userDTO, updater);
     }
 
+    async updateUser(userDTO: UserDTO): Promise<UserDTO | undefined> {
+        return this.userRepository.save(userDTO);
+    }
+
     async delete(userDTO: UserDTO): Promise<UserDTO | undefined> {
         const user = UserMapper.fromDTOtoEntity(userDTO);
         const result = await this.userRepository.remove(user);

@@ -1,19 +1,19 @@
 package com.example.fu_food.models;
 
+import java.util.List;
+
 public class OrderDetail {
+
     private Order order;
-    private Food food;
-    private int quantity;
-    private int subAmount;
+    private List<OrderItem> orderItems;
 
     public OrderDetail() {
+
     }
 
-    public OrderDetail(Order order, Food food, int quantity, int subAmount) {
+    public OrderDetail(Order order, List<OrderItem> orderItems) {
         this.order = order;
-        this.food = food;
-        this.quantity = quantity;
-        this.subAmount = subAmount;
+        this.orderItems = orderItems;
     }
 
     public Order getOrder() {
@@ -24,38 +24,19 @@ public class OrderDetail {
         this.order = order;
     }
 
-    public Food getFood() {
-        return food;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getSubAmount() {
-        return subAmount;
-    }
-
-    public void setSubAmount(int subAmount) {
-        this.subAmount = subAmount;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     @Override
     public String toString() {
         return "OrderDetail{" +
                 "order=" + order +
-                ", food=" + food +
-                ", quantity=" + quantity +
-                ", subAmount=" + subAmount +
+                ", orderItems=" + orderItems +
                 '}';
     }
-
 }

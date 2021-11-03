@@ -16,6 +16,7 @@ import com.example.fu_food.config.Config;
 import com.example.fu_food.config.SharedPrefConfig;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.OrderDetail;
+import com.example.fu_food.models.OrderItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,11 +24,11 @@ import java.util.List;
 public class ListOrderDetail extends RecyclerView.Adapter<ListOrderDetail.ListOrderDetailViewHolder> {
 
     public static Context context;
-    public static List<OrderDetail> orderDetails;
+    public static List<OrderItem> orderItems;
 
-    public ListOrderDetail(Context context, List<OrderDetail> orderDetails) {
+    public ListOrderDetail(Context context, List<OrderItem> orderItems) {
         this.context = context;
-        this.orderDetails = orderDetails;
+        this.orderItems = orderItems;
     }
 
     @NonNull
@@ -40,16 +41,16 @@ public class ListOrderDetail extends RecyclerView.Adapter<ListOrderDetail.ListOr
     @Override
     public void onBindViewHolder(@NonNull ListOrderDetail.ListOrderDetailViewHolder holder, int position) {
         String imageUrl = Config.getImageUrl();
-        Picasso.with(context).load(imageUrl + "nem_nuong_ep5gai.jpg")
+        Picasso.with(context).load(imageUrl + orderItems.get(position).getImageFood())
                 .into(holder.imageViewFood);
-//        holder.textViewFoodName.setText("Bún Bò Huế");
-//        holder.textViewOrderQuantity.setText("2");
-//        holder.textViewSubTotal.setText(convertPriceToString(70000));
+        holder.textViewFoodName.setText(orderItems.get(position).getFoodName());
+        holder.textViewOrderQuantity.setText(orderItems.get(position).getSubQuantity() + "");
+        holder.textViewSubTotal.setText(convertPriceToString(orderItems.get(position).getSubAmount()));
     }
 
     @Override
     public int getItemCount() {
-        return orderDetails.size();
+        return orderItems.size();
     }
 
     public static class ListOrderDetailViewHolder extends RecyclerView.ViewHolder {
@@ -61,9 +62,9 @@ public class ListOrderDetail extends RecyclerView.Adapter<ListOrderDetail.ListOr
             super(itemView);
 
             imageViewFood = itemView.findViewById(R.id.imageViewFood);
-//            textViewSubTotal = itemView.findViewById(R.id.textViewSubTotal);
-//            textViewFoodName = itemView.findViewById(R.id.textViewFoodName);
-//            textViewOrderQuantity = itemView.findViewById(R.id.textViewOrderQuantity);
+            textViewSubTotal = itemView.findViewById(R.id.textViewSubTotal);
+            textViewFoodName = itemView.findViewById(R.id.textViewFoodName);
+            textViewOrderQuantity = itemView.findViewById(R.id.textViewOrderQuantity);
 
         }
 

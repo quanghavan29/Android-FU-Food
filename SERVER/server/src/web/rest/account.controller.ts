@@ -12,6 +12,7 @@ import {
     UseInterceptors,
     ClassSerializerInterceptor,
     InternalServerErrorException,
+    Put,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AuthGuard, Roles, RoleType, RolesGuard } from '../../security';

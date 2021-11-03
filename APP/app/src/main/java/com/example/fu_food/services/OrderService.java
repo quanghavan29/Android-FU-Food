@@ -3,6 +3,7 @@ package com.example.fu_food.services;
 import com.example.fu_food.config.Config;
 import com.example.fu_food.models.Cart;
 import com.example.fu_food.models.Order;
+import com.example.fu_food.models.OrderDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,4 +32,7 @@ public interface OrderService {
     @GET("api/orders/get-orders-of-user")
     Call<List<Order>> getOrdersOfUser(@Query("userId") String userId);
 
+    // get order detail by user
+    @GET("api/orderitems/get-order-detail-by-user")
+    Call<OrderDetail> getOrderDetail(@Query("userId") String userId, @Query("orderId") String orderId);
 }

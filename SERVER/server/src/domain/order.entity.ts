@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
 import { User } from "./user.entity";
 
-@Entity('order')
+@Entity('orders')
 export class Order {
 
     @PrimaryColumn({default: (new Date()).getTime().toString()})

@@ -6,25 +6,24 @@ import {
     Req,
     UseInterceptors,
     ClassSerializerInterceptor,
+    Body,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
 import { ApiBearerAuth, ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { FoodService } from '../../service/food.service';
 import { FoodDTO } from '../../service/dto/food.dto';
+import { UserDTO } from '../../service/dto/user.dto';
 
 @Controller('api/foods')
-// @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(LoggingInterceptor, ClassSerializerInterceptor)
-// @ApiBearerAuth()
 @ApiUseTags('foods-resource')
 export class FoodController {
     logger = new Logger('FoodController');
-s
+
     constructor(private readonly foodService: FoodService) {}
 
     @Get('/get-top10-best-selling-foods')
-    // @Roles(RoleType.ADMIN)
     @ApiOperation({ title: 'Get the list of foods' })
     @ApiResponse({
         status: 200,
@@ -37,7 +36,6 @@ s
     }
 
     @Get('/get-all')
-    // @Roles(RoleType.ADMIN)
     @ApiOperation({ title: 'Get the list of foods' })
     @ApiResponse({
         status: 200,
@@ -57,7 +55,6 @@ s
     }
 
     @Get('/get-food-detail')
-    // @Roles(RoleType.ADMIN)
     @ApiOperation({ title: 'Get food detail' })
     @ApiResponse({
         status: 200,
@@ -70,7 +67,6 @@ s
     }
 
     @Get('/get-all-food-of-restaurant')
-    // @Roles(RoleType.ADMIN)
     @ApiOperation({ title: 'Get the list of foods' })
     @ApiResponse({
         status: 200,

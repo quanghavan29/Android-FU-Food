@@ -28,7 +28,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOrderId"
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/textViewAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -78,32 +78,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/textViewOrderDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="Oct 26 2021 09:03:02"
                 android:textColor="@color/blue"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewOrderId"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView21" />
+                app:layout_constraintTop_toTopOf="@+id/textViewOrderId" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/textViewOrderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="Mã Đơn Hàng: 10827362543"
                 android:textColor="@color/blue"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.031"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -134,7 +134,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/textViewOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đã giao hàng"

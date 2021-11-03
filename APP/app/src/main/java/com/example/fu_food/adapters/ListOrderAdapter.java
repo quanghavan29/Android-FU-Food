@@ -99,19 +99,22 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.List
                     // check if item still exists
                     if(position != RecyclerView.NO_POSITION){
                         Order orderClicked = orders.get(position);
-                        String orderClickedId = orderClicked.getId();
-                        openOrderDetail();
+                        String orderIdClicked = orderClicked.getId();
+                        openOrderDetail(orderIdClicked);
                     }
                 }
             });
-
 
         }
 
     }
 
-    private static void openOrderDetail() {
+    private static void openOrderDetail(String orderId) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("ORDER_ID", orderId);
+
+        intent.putExtra("KEY_BUNDLE", bundle);
         context.startActivity(intent);
     }
 

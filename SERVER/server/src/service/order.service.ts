@@ -8,6 +8,16 @@ import { OrderRepository } from '../repository/order.repository';
 export class OrderService {
     constructor(@InjectRepository(OrderRepository) private orderRepository: OrderRepository) {}
 
+    async findById(id: string): Promise<OrderDTO | undefined> {
+        const result = await this.orderRepository.findOne({
+            relations: ['user'],
+            where: {
+                id: id,
+            }
+        });
+        return OrderMapper.fromEntityToDTO(result);
+    }
+
     async save(orderDTO: OrderDTO): Promise<OrderDTO | undefined> {
         const newOrder = await this.orderRepository.save(OrderMapper.fromDTOtoEntity(orderDTO));
         return OrderMapper.fromEntityToDTO(newOrder);
@@ -20,6 +30,9 @@ export class OrderService {
                 user: {
                     id: userId,
                 }
+            },
+            order: {
+                orderedDate: 'DESC',
             }
         });
 

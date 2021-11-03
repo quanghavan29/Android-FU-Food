@@ -20,6 +20,7 @@ import { Request } from '../../client/request';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
 import { ApiBearerAuth, ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { UserService } from '../../service/user.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('api/admin/users')
 // @UseGuards(AuthGuard, RolesGuard)
@@ -67,7 +68,7 @@ export class UserController {
         return created;
     }
 
-    @Put('/')
+    @Put('/update-user-admin')
     @Roles(RoleType.ADMIN)
     @ApiOperation({ title: 'Update user' })
     @ApiResponse({
@@ -75,7 +76,7 @@ export class UserController {
         description: 'The record has been successfully updated.',
         type: UserDTO,
     })
-    async updateUser(@Req() req: Request, @Body() userDTO: UserDTO): Promise<UserDTO> {
+    async updateUserAdmin(@Req() req: Request, @Body() userDTO: UserDTO): Promise<UserDTO> {
         const userOnDb = await this.userService.find({ where: { login: userDTO.login } });
         let updated = false;
         if (userOnDb && userOnDb.id) {
@@ -91,6 +92,35 @@ export class UserController {
             HeaderUtil.addEntityCreatedHeaders(req.res, 'User', createdOrUpdated.id);
         }
         return createdOrUpdated;
+    }
+
+    @Put('/update-user')
+    @ApiOperation({ title: 'Update user' })
+    @ApiResponse({
+        status: 200,
+        description: 'The record has been successfully updated.',
+        type: UserDTO,
+    })
+    async updateUser(@Body() userDTO: any): Promise<any | undefined> {
+        const userOnDb = await this.userService.findById(userDTO.id);
+
+        if (userDTO.oldPassword !== '') {
+            let validPassword = await bcrypt.compare(userDTO.oldPassword, userOnDb.password);
+            if (!validPassword) {
+                return {
+                    status: 500,
+                };
+            } else {
+                userDTO.password = await bcrypt.hash(userDTO.newPassword, 8);
+            }
+        }
+
+        console.log(userDTO);
+
+        const userUpdated = await this.userService.update(userDTO);
+        return {
+            status: 200,
+        };
     }
 
     @Get('/getUserByEmail')

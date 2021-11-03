@@ -25,4 +25,19 @@ export class OrderItemController {
     
     constructor(private readonly orderitemService: OrderItemService) {}
 
+    @Get('/get-order-detail-by-user')
+    // @Roles(RoleType.ADMIN)
+    @ApiOperation({ title: 'Get the list of foods' })
+    @ApiResponse({
+        status: 200,
+        description: 'List all foods',
+        type: OrderItemDTO,
+    })
+    async getAllFoodsOfRestaurant(@Req() req: Request): Promise<any | undefined> {
+        let userId = req.query.userId;
+        let orderId = req.query.orderId;
+        console.log(userId, orderId);
+        return this.orderitemService.getOrdersDetailByUser(userId, orderId);
+    }
+
 }
