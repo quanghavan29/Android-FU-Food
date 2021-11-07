@@ -44,4 +44,18 @@ export class OrderService {
         return orderDTOs;
     }
     
+    async getAllOrders(): Promise<OrderDTO[] | undefined> {
+        const result = await this.orderRepository.find({
+            order: {
+                orderedDate: 'DESC',
+            }
+        });
+
+        const orderDTOs: OrderDTO[] = [];
+        result.forEach(order => {
+            orderDTOs.push(order);
+        });
+
+        return orderDTOs;
+    }
 }

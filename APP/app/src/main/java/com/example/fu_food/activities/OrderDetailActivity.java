@@ -103,8 +103,18 @@ public class OrderDetailActivity extends AppCompatActivity {
                 textViewAddress.setText(order.getAddress());
                 textViewOrderDate.setText(order.getOrderedDate().toLocaleString());
                 textViewTotalAmount.setText(convertPriceToString(order.getTotalAmount()));
-                textViewOrderStatus.setText(order.getStatus());
                 textViewTotalQuantity.setText(order.getTotalQuantity() + " (Item)");
+
+                if (order.getStatus().equals("pending")) {
+                    textViewOrderStatus.setText("Chờ xác nhận");
+                    textViewOrderStatus.setTextColor(OrderDetailActivity.this.getResources().getColor(R.color.pending));
+                } else if (order.getStatus().equals("success")) {
+                    textViewOrderStatus.setText("Đã giao hàng");
+                    textViewOrderStatus.setTextColor(OrderDetailActivity.this.getResources().getColor(R.color.green));
+                } else if (order.getStatus().equals("processing")) {
+                    textViewOrderStatus.setText("Đang giao hàng");
+                    textViewOrderStatus.setTextColor(OrderDetailActivity.this.getResources().getColor(R.color.processing));
+                }
 
                 ListOrderDetail listOrderDetail = new ListOrderDetail(OrderDetailActivity.this, orderItems);
                 recyclerViewListOrderDetails.setLayoutManager(new LinearLayoutManager(OrderDetailActivity.this, RecyclerView.VERTICAL, false));

@@ -78,4 +78,15 @@ export class OrderController {
         return await this.orderService.getListOrdersOfUser(userId);
     }
 
+    @Get('/get-all-orders')
+    @ApiOperation({ title: 'Get the list of orders' })
+    @ApiResponse({
+        status: 200,
+        description: 'List orders of user',
+        type: OrderDTO,
+    })
+    async getAllOrder(): Promise<OrderDTO[] | undefined> {
+        return await this.orderService.getAllOrders();
+    }
+
 }
