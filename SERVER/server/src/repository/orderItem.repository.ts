@@ -18,4 +18,17 @@ export class OrderItemRepository extends Repository<OrderItem> {
 
         return result;
     }
+
+    async findOrderDetail(orderId: string): Promise<any[] | undefined> {
+        const result = await getConnection()
+        .createQueryBuilder(OrderItem, 'order_item')
+        .select('food.imageUrl as imageFood, food.name as foodName')
+        .addSelect('order_item.quantity as subQuantity, order_item.subAmount as subAmount')
+        .innerJoin(Order, 'order', 'order.id = order_item.orderId')
+        .innerJoin(Food, 'food', 'food.id = order_item.foodId')
+        .where('order.id = :orderId', { orderId: orderId })
+        .getRawMany();
+
+        return result;
+    }
 }

@@ -40,4 +40,17 @@ export class OrderItemController {
         return this.orderitemService.getOrdersDetailByUser(userId, orderId);
     }
 
+    @Get('/get-order-detail')
+    @ApiOperation({ title: 'Get the list of foods' })
+    @ApiResponse({
+        status: 200,
+        description: 'List all foods',
+        type: OrderItemDTO,
+    })
+    async getOrderDetail(@Req() req: Request): Promise<any | undefined> {
+        let orderId = req.query.orderId;
+        console.log(orderId);
+        return this.orderitemService.getOrdersDetail(orderId);
+    }
+
 }

@@ -37,5 +37,14 @@ export class OrderItemService {
             orderItems: orderItems,
         };
     }
+
+    async getOrdersDetail(orderId: string): Promise<any | undefined> {
+        let order = await this.orderService.findById(orderId);
+        let orderItems = await this.orderitemRepository.findOrderDetail(orderId);
+        return {
+            order: order,
+            orderItems: orderItems,
+        };
+    }
     
 }
