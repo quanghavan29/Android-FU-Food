@@ -97,7 +97,8 @@ export class OrderController {
         type: OrderDTO,
     })
     async updateOrderStatus(@Body() orderDTO: OrderDTO): Promise<any> {
-        return await this.orderItemService.update(orderDTO);
+        console.log('body request: ', orderDTO);
+        return await this.orderService.update(orderDTO);
     }
 
 }

@@ -23,6 +23,12 @@ export class OrderService {
         return OrderMapper.fromEntityToDTO(newOrder);
     }
 
+    async update(orderDTO: OrderDTO): Promise<OrderDTO | undefined> {
+        const updatedOrder = await this.orderRepository.save(OrderMapper.fromDTOtoEntity(orderDTO));
+        return OrderMapper.fromEntityToDTO(updatedOrder);
+    }
+
+
     async getListOrdersOfUser(userId: string): Promise<OrderDTO[] | undefined> {
         const result = await this.orderRepository.find({
             relations: ['user'],
