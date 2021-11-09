@@ -89,4 +89,15 @@ export class OrderController {
         return await this.orderService.getAllOrders();
     }
 
+    @Post('/update-order-status')
+    @ApiOperation({ title: 'Update order status' })
+    @ApiResponse({
+        status: 201,
+        description: 'The record has been successfully updated.',
+        type: OrderDTO,
+    })
+    async updateOrderStatus(@Body() orderDTO: OrderDTO): Promise<any> {
+        return await this.orderItemService.update(orderDTO);
+    }
+
 }
